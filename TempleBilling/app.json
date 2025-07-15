@@ -16,7 +16,13 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.jsriganesh.TempleBilling"
     },
     "web": {
       "bundler": "metro",
@@ -35,7 +41,8 @@
         }
       ],
       [
-        "expo-image-picker",{
+        "expo-image-picker",
+        {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ],
@@ -48,6 +55,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "4503d2f0-b9dc-4f3c-8f36-f548e327dad5"
+      }
     }
   }
 }
