@@ -95,5 +95,17 @@
    "annadhaanam":"Anadhanam",
    "pooja":"Pooja",
    "thirupani":"Thirupani"
+  },
+  "ReportHeaders":{
+    "id": "ID",
+    "date": "Date",
+    "name": "Name",
+    "amount": "Amount",
+    "type": "Type",
+    "comments": "Comments",
+    "paymentType": "Payment Type",
+    "address": "Address",
+    "totalIncome": "Total Income",
+    "summary": "Summary"
   }
 }

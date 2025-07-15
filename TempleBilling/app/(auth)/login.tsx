@@ -4,18 +4,13 @@ import { useRouter } from 'expo-router'
 import React from 'react'
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 
-
-
-
-
 const Login = () => {
 
-      const router = useRouter()
-    
+  const router = useRouter()
   return (
     <View style={styles.container}>
 
-              {/* App Name */}
+      {/* App Name */}
       <Text style={styles.appName}>{AppName}</Text>
 
       {/* Top Center Image */}
@@ -36,11 +31,13 @@ const Login = () => {
       />
 
       {/* Submit Button */}
-      <Button title={localizationText('Common', 'submit')} onPress={() => {router.push('/(auth)/createTemple')}} />
+      <Button title={localizationText('Common', 'submit')} onPress={() => {
+        router.push('/(auth)/home')
+      }} />
 
       {/* Login with Google Button */}
       <View style={styles.googleButton}>
-        <Button title={localizationText('Common', 'loginWithGoogle')} onPress={() => {}} />
+        <Button title={localizationText('Common', 'loginWithGoogle')} onPress={() => { }} />
       </View>
     </View>
   )

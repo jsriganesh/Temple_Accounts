@@ -8,6 +8,7 @@ import { categorieProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
 import React, { useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { generatePDF } from './pdfTemplate';
 
 const Reports = () => {
   const { categorys } = useAppSelector((state) => state.commonData)
@@ -16,21 +17,38 @@ const Reports = () => {
 
   const [selectedCategory, setSelectedCategory] = useState<categorieProps | null>(categorys[0]);
 
-  // useEffect(() => {
-  //   if (categorys && categorys.length > 0) {
-  //     setSelectedCategory(categorys[0]);
-  //   }
-  // }, [categorys]);
-
-
-
-  // useEffect(() => {
-  //   if (selectedCategory && selectedCategory.id) {
-  //     const options = categorys.find((cat) => cat.id === selectedCategory.id)?.options || [];
-  //     selectOptions(options);
-  //   }
-  // }, [selectedCategory]);
-
+  const generateReports = () => {
+  
+          const templeDetails = {
+            templeName: "அருள் மிகு ஸ்ரீ தட்சிணாமூர்த்தி கோவில்",
+            templeAddress: "திருவாரூர் மாவட்டம், திருவாரூர்",
+            templeImage: "https://thumbs.dreamstime.com/b/indian-temple-3396438.jpg",
+          }
+  
+          const data = {
+            templeDetails: templeDetails,
+            // reportType: localizationText('Common', 'incomeType'),
+            reportType: 'Income Type',
+            report: receiptsReportData,
+            reportHeaders: [
+              // localizationText('ReportHeaders', 'id'),
+              // localizationText('ReportHeaders', 'date'),
+              // localizationText('ReportHeaders', 'name'),
+              // localizationText('ReportHeaders', 'type'),
+              // localizationText('ReportHeaders', 'amount'),
+              // localizationText('ReportHeaders', 'paymentType'),
+              // localizationText('ReportHeaders', 'comments'),
+              'ID',
+              'Date',
+              'Name',
+              'Type',
+              'Amount',
+              'Payment Type',
+              'Comments',
+              ]
+          }
+          generatePDF(data)
+        }
 
   return (
     <ScreenWrapper>
@@ -59,7 +77,9 @@ const Reports = () => {
             </ScrollView>
           </View>
 
-          <PageFilterDates filterDateDetails={(date) => {
+          <PageFilterDates 
+          generateReports={generateReports}
+          filterDateDetails={(date) => {
             console.log('date', date);
           }} />
 

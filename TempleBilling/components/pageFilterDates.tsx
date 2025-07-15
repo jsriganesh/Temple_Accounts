@@ -63,9 +63,11 @@ interface PageFilterDatesProps {
     hideActiveInactive?: boolean;
     showDateFilter?: boolean;
     filterDateDetails:(dates:FilterDatesProps)=> void
+    generateReports?: () => void;
 }
 const PageFilterDates = ({
-    filterDateDetails
+    filterDateDetails,
+    generateReports
 }: PageFilterDatesProps) => {
 
     const [fromDate, setFromDate] = useState<Date>(new Date())
@@ -189,6 +191,14 @@ const PageFilterDates = ({
                 </MenuOptions>
             </Menu>
 
+
+            <TouchableOpacity onPress={() => {generateReports && generateReports()}}>
+            <Ionicons
+                            name="cloud-download"
+                            size={22}
+                            color={appColors.themeColor}
+                        />
+            </TouchableOpacity>
 
             {showDatePickerKey && (
                         <DateTimePickerComponent

@@ -95,6 +95,17 @@
     "annadhaanam":"அன்னதானம்",
     "pooja":"பூஜை",
     "thirupani":"திருப்பணி"
-   }
- 
+   },
+   "ReportHeaders":{
+    "id": "ID",
+    "date": "தேதி",
+    "name": "பெயர்",
+    "amount": "தொகை",
+    "type": "வகை",
+    "comments": "கருத்துகள்",
+    "paymentType": "பணம் செலுத்தும் வகை",
+    "address": "முகவரி",
+    "totalIncome": "மொத்த வருமானம்",
+    "summary": "சுருக்கம்"
+  }
 }
