@@ -1,6 +1,7 @@
 import React from 'react';
 import { Dimensions, Platform, StatusBar, StyleSheet, View } from 'react-native';
 import Footer from './footer';
+import { useKeyboardStatus } from './useKeyboardStatus';
 
 interface ScreenWrapperProps {
   styles?: any;
@@ -11,6 +12,8 @@ interface ScreenWrapperProps {
 const {height} = Dimensions.get('window');
 
 const ScreenWrapper = ({styles,children,hideFooter}:ScreenWrapperProps) => {
+    const keyboardVisible = useKeyboardStatus();  
+
     let paddingTop = Platform.OS === 'ios' ? height * 0.06 : 0 ;
   return (
     <View style={{ flex: 1, paddingTop: paddingTop, backgroundColor: '#fff', ...styles }}>
@@ -18,7 +21,7 @@ const ScreenWrapper = ({styles,children,hideFooter}:ScreenWrapperProps) => {
         <View style={{ flex: 1, paddingBottom: Platform.OS === 'ios' ? 0 : 10 }}>
         {children}
         </View>
-      {!hideFooter && <Footer/>}
+      {!keyboardVisible && !hideFooter && <Footer/>}
     </View>
   )
 }

@@ -3,7 +3,7 @@ import ScreenWrapper from '@/components/screenWrapper';
 import { localizationText } from '@/constants/commonMenthod';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Alert, Button, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Button, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 
 
 
@@ -48,189 +48,197 @@ const CreateDonation = () => {
     return (
         <ScreenWrapper>
             <PageHeader title={localizationText(category.labelParentKey, category.labelChildKey)} />
-            <View style={styles.container}>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // padding for iOS, height for Android
+                keyboardVerticalOffset={50 }
+                 // adjust offset if using header
+                >
+            <ScrollView>
+                <View style={styles.container}>
 
-                {/* Select Options */}
-                <Text style={styles.label}>{localizationText('Common', 'selectType')}</Text>
-                <Controller
-                    control={control}
-                    name="donationType"
-                    defaultValue=""
-                    render={({ field: { onChange, value } }) => (
-                        <View style={styles.pickerContainer}>
-                            <Picker
-                                style={styles.picker}
-                                dropdownIconColor="#666" // optional: customize arrow icon
-                                selectedValue={value}
-                                onValueChange={(itemValue) => {
-                                    setSelectedType(itemValue);
-                                    onChange(itemValue);
+                    {/* Select Options */}
+                    <Text style={styles.label}>{localizationText('Common', 'selectType')}</Text>
+                    <Controller
+                        control={control}
+                        name="donationType"
+                        defaultValue=""
+                        render={({ field: { onChange, value } }) => (
+                            <View style={styles.pickerContainer}>
+                                <Picker
+                                    style={styles.picker}
+                                    dropdownIconColor="#666" // optional: customize arrow icon
+                                    selectedValue={value}
+                                    onValueChange={(itemValue) => {
+                                        setSelectedType(itemValue);
+                                        onChange(itemValue);
+                                    }}
+                                >
+                                    {
+                                        options.length > 0 && options.map((option) => (
+                                            <Picker.Item key={option.id} label={localizationText(option.labelParentKey, option.labelChildKey)} value={option.id} />
+                                        ))
+                                    }
+                                </Picker>
+                            </View>
+                        )}
+                    />
+
+                    {category.id == 3 &&
+                        <>
+                            {/* Temple Name */}
+                            <Text style={styles.label}>{localizationText('Donation', 'personName')}</Text>
+                            <Controller
+                                control={control}
+                                name="personName"
+                                rules={{
+                                    required: localizationText('Donation', 'personNameRequired'),
+                                    minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5'), },
+                                    maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
                                 }}
-                            >
-                                {
-                                    options.length > 0 && options.map((option) => (
-                                        <Picker.Item key={option.id} label={localizationText(option.labelParentKey, option.labelChildKey)} value={option.id} />
-                                    ))
-                                }
-                            </Picker>
-                        </View>
-                    )}
-                />
-
-                {category.id == 3 &&
-                    <>
-                        {/* Temple Name */}
-                        <Text style={styles.label}>{localizationText('Donation', 'personName')}</Text>
-                        <Controller
-                            control={control}
-                            name="personName"
-                            rules={{
-                                required: localizationText('Donation', 'personNameRequired'),
-                                minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5'), },
-                                maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
-                            }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    placeholder={localizationText('Donation', 'enterPersonName')}
-                                    style={[styles.input, errors.personName && styles.errorInput]}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    value={value}
-                                />
-                            )}
-                        />
-                        {errors?.personName?.message && <Text style={styles.errorText}>{String(errors.personName.message)}</Text>}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder={localizationText('Donation', 'enterPersonName')}
+                                        style={[styles.input, errors.personName && styles.errorInput]}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                            />
+                            {errors?.personName?.message && <Text style={styles.errorText}>{String(errors.personName.message)}</Text>}
 
 
-                        <Text style={styles.label}>{localizationText('CreateTemple', 'mobileNo')}</Text>
-                        <Controller
-                            control={control}
-                            name="mobileNo"
-                            rules={{
-                                required: localizationText('CreateTemple', 'mobileNoRequired'),
-                                minLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
-                                maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
-                                pattern: {
-                                    value: /^[0-9]+$/,
-                                    message: localizationText('ValidationMsg', 'mobileNoMustBeNumeric'),
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    placeholder={localizationText('CreateTemple', 'enterMobileNo')}
-                                    keyboardType="numeric"
-                                    style={[styles.input, errors.mobileNo && styles.errorInput]}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    value={value}
-                                />
-                            )}
-                        />
-                        {errors.mobileNo?.message && <Text style={styles.errorText}>{String(errors.mobileNo.message)}</Text>}
-
-                        {/* Email */}
-                        <Text style={styles.label}>{localizationText('CreateTemple', 'email')}</Text>
-                        <Controller
-                            control={control}
-                            name="email"
-                            rules={{
-                                required: localizationText('CreateTemple', 'emailRequired'),
-                                minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
-                                maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
-                                pattern: {
-                                    value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                                    message: localizationText('CreateTemple', 'emailMustBeValid'),
-                                },
-                            }}
-                            render={({ field: { onChange, onBlur, value } }) => (
-                                <TextInput
-                                    placeholder={localizationText('CreateTemple', 'enterEmail')}
-                                    keyboardType="email-address"
-                                    style={[styles.input, errors.email && styles.errorInput]}
-                                    onBlur={onBlur}
-                                    onChangeText={onChange}
-                                    value={value}
-                                />
-                            )}
-                        />
-                        {errors.email && <Text style={styles.errorText}>{String(errors.email.message)}</Text>}
-
-                    </>}
-
-                <Text style={styles.label}>{localizationText('Donation', 'donationAmount')}</Text>
-                <Controller
-                    control={control}
-                    name="donationAmount"
-                    rules={{
-                        required: localizationText('Donation', 'donationAmountRequired'),
-                        minLength: { value: 1, message: localizationText('ValidationMsg', 'valueMust1Digits') },
-                        // maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
-                        pattern: {
-                            value: /^[0-9]+$/,
-                            message: localizationText('ValidationMsg', 'vauleMustBeNumeric'),
-                        },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder={localizationText('Donation', 'enterDonationAmount')}
-                            keyboardType="numeric"
-                            style={[styles.input, errors.mobileNo && styles.errorInput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors.donationAmount?.message && <Text style={styles.errorText}>{String(errors.donationAmount.message)}</Text>}
-
-                <Text style={styles.label}>{localizationText('Donation', 'donationType')}</Text>
-                <Controller
-                    control={control}
-                    name="donationType"
-                    defaultValue=""
-                    render={({ field: { onChange, value } }) => (
-                        <View style={styles.pickerContainer}>
-                            <Picker
-                                style={styles.picker}
-                                dropdownIconColor="#666" // optional: customize arrow icon
-                                selectedValue={value}
-                                onValueChange={(itemValue) => {
-                                    setSelectedDonationType(itemValue);
-                                    onChange(itemValue);
+                            <Text style={styles.label}>{localizationText('CreateTemple', 'mobileNo')}</Text>
+                            <Controller
+                                control={control}
+                                name="mobileNo"
+                                rules={{
+                                    required: localizationText('CreateTemple', 'mobileNoRequired'),
+                                    minLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                                    maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                                    pattern: {
+                                        value: /^[0-9]+$/,
+                                        message: localizationText('ValidationMsg', 'mobileNoMustBeNumeric'),
+                                    },
                                 }}
-                            >
-                                {/* <Picker.Item label={localizationText('Donation', 'selectDonationType')} value="" /> */}
-                                <Picker.Item label="Cash" value="cash" />
-                                <Picker.Item label="Cheque" value="cheque" />
-                                <Picker.Item label="UPI" value="upi" />
-                            </Picker>
-                        </View>
-                    )}
-                />
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder={localizationText('CreateTemple', 'enterMobileNo')}
+                                        keyboardType="numeric"
+                                        style={[styles.input, errors.mobileNo && styles.errorInput]}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                            />
+                            {errors.mobileNo?.message && <Text style={styles.errorText}>{String(errors.mobileNo.message)}</Text>}
+
+                            {/* Email */}
+                            <Text style={styles.label}>{localizationText('CreateTemple', 'email')}</Text>
+                            <Controller
+                                control={control}
+                                name="email"
+                                rules={{
+                                    required: localizationText('CreateTemple', 'emailRequired'),
+                                    minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
+                                    maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
+                                    pattern: {
+                                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                        message: localizationText('CreateTemple', 'emailMustBeValid'),
+                                    },
+                                }}
+                                render={({ field: { onChange, onBlur, value } }) => (
+                                    <TextInput
+                                        placeholder={localizationText('CreateTemple', 'enterEmail')}
+                                        keyboardType="email-address"
+                                        style={[styles.input, errors.email && styles.errorInput]}
+                                        onBlur={onBlur}
+                                        onChangeText={onChange}
+                                        value={value}
+                                    />
+                                )}
+                            />
+                            {errors.email && <Text style={styles.errorText}>{String(errors.email.message)}</Text>}
+
+                        </>}
+
+                    <Text style={styles.label}>{localizationText('Donation', 'donationAmount')}</Text>
+                    <Controller
+                        control={control}
+                        name="donationAmount"
+                        rules={{
+                            required: localizationText('Donation', 'donationAmountRequired'),
+                            minLength: { value: 1, message: localizationText('ValidationMsg', 'valueMust1Digits') },
+                            // maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: localizationText('ValidationMsg', 'vauleMustBeNumeric'),
+                            },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                placeholder={localizationText('Donation', 'enterDonationAmount')}
+                                keyboardType="numeric"
+                                style={[styles.input, errors.mobileNo && styles.errorInput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {errors.donationAmount?.message && <Text style={styles.errorText}>{String(errors.donationAmount.message)}</Text>}
+
+                    <Text style={styles.label}>{localizationText('Donation', 'donationType')}</Text>
+                    <Controller
+                        control={control}
+                        name="donationType"
+                        defaultValue=""
+                        render={({ field: { onChange, value } }) => (
+                            <View style={styles.pickerContainer}>
+                                <Picker
+                                    style={styles.picker}
+                                    dropdownIconColor="#666" // optional: customize arrow icon
+                                    selectedValue={value}
+                                    onValueChange={(itemValue) => {
+                                        setSelectedDonationType(itemValue);
+                                        onChange(itemValue);
+                                    }}
+                                >
+                                    {/* <Picker.Item label={localizationText('Donation', 'selectDonationType')} value="" /> */}
+                                    <Picker.Item label="Cash" value="cash" />
+                                    <Picker.Item label="Cheque" value="cheque" />
+                                    <Picker.Item label="UPI" value="upi" />
+                                </Picker>
+                            </View>
+                        )}
+                    />
 
 
-                <Text style={styles.label}>{localizationText('Common', 'comments')}</Text>
-                <Controller
-                    control={control}
-                    name="personName"
+                    <Text style={styles.label}>{localizationText('Common', 'comments')}</Text>
+                    <Controller
+                        control={control}
+                        name="personName"
 
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
 
-                            multiline
-                            placeholder={localizationText('Donation', 'enterComments')}
-                            style={[styles.commentsinput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
+                                multiline
+                                placeholder={localizationText('Donation', 'enterComments')}
+                                style={[styles.commentsinput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
 
-                <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor}/>
+                    <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor}/>
 
-            </View>
-
+                </View>
+            </ScrollView>
+            </KeyboardAvoidingView>
         </ScreenWrapper>
     )
 }

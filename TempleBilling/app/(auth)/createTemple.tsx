@@ -5,7 +5,7 @@ import * as ImagePicker from 'expo-image-picker';
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { Button, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Button, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 const CreateTemple = () => {
     const {
@@ -18,7 +18,6 @@ const CreateTemple = () => {
     const [image, setImage] = useState<string | null>(null);
 
 
-    console.log('errors', errors)
     const onSubmit = (data: any) => {
         router.push('/(auth)/home')
         // Alert.alert('Form Submitted', JSON.stringify(data))
@@ -44,116 +43,125 @@ const CreateTemple = () => {
 
     return (
         <ScreenWrapper hideFooter>
-            <View style={styles.container}>
-                <Text style={styles.title}>{localizationText('Common', 'createTemple')}</Text>
-                {/* Temple Logo (Optional) */}
-                <Text style={styles.label}>{localizationText('CreateTemple', 'templeLogo')}</Text>
-                <TouchableOpacity onPress={pickImage} >
-                    {image ? <Image source={{ uri: image }} style={styles.image} /> :
-                        <View style={styles.image}><Text style={{ color: '#888', fontSize: 16 }}>{'No image'}</Text></View>}
-                </TouchableOpacity>
+            <KeyboardAvoidingView
+                style={{ flex: 1 }}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // padding for iOS, height for Android
+                keyboardVerticalOffset={50 }
+                 // adjust offset if using header
+                >
+            <ScrollView>
+                <View style={styles.container}>
+                    <Text style={styles.title}>{localizationText('Common', 'createTemple')}</Text>
+                    {/* Temple Logo (Optional) */}
+                    <Text style={styles.label}>{localizationText('CreateTemple', 'templeLogo')}</Text>
+                    <TouchableOpacity onPress={pickImage} >
+                        {image ? <Image source={{ uri: image }} style={styles.image} /> :
+                            <View style={styles.image}><Text style={{ color: '#888', fontSize: 16 }}>{'No image'}</Text></View>}
+                    </TouchableOpacity>
 
-                {/* Temple Name */}
-                <Text style={styles.label}>{localizationText('CreateTemple', 'templeName')}</Text>
-                <Controller
-                    control={control}
-                    name="templeName"
-                    rules={{
-                        required: localizationText('CreateTemple', 'templeNameRequired'),
-                        minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5'), },
-                        maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder={localizationText('CreateTemple', 'enterTempleName')}
-                            style={[styles.input, errors.templeName && styles.errorInput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors?.templeName?.message && <Text style={styles.errorText}>{String(errors.templeName.message)}</Text>}
+                    {/* Temple Name */}
+                    <Text style={styles.label}>{localizationText('CreateTemple', 'templeName')}</Text>
+                    <Controller
+                        control={control}
+                        name="templeName"
+                        rules={{
+                            required: localizationText('CreateTemple', 'templeNameRequired'),
+                            minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5'), },
+                            maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                placeholder={localizationText('CreateTemple', 'enterTempleName')}
+                                style={[styles.input, errors.templeName && styles.errorInput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {errors?.templeName?.message && <Text style={styles.errorText}>{String(errors.templeName.message)}</Text>}
 
-                {/* Temple Address */}
-                <Text style={styles.label}>{localizationText('CreateTemple', 'templeAddress')}</Text>
-                <Controller
-                    control={control}
-                    name="templeAddress"
-                    rules={{
-                        required: localizationText('CreateTemple', 'templeAddressRequired'),
-                        minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
-                        maxLength: { value: 200, message: localizationText('ValidationMsg', 'maxLengthIs200') },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder={localizationText('CreateTemple', 'enterTempleAddress')}
-                            style={[styles.input, errors.templeAddress && styles.errorInput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors.templeAddress && <Text style={styles.errorText}>{String(errors.templeAddress.message)}</Text>}
+                    {/* Temple Address */}
+                    <Text style={styles.label}>{localizationText('CreateTemple', 'templeAddress')}</Text>
+                    <Controller
+                        control={control}
+                        name="templeAddress"
+                        rules={{
+                            required: localizationText('CreateTemple', 'templeAddressRequired'),
+                            minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
+                            maxLength: { value: 200, message: localizationText('ValidationMsg', 'maxLengthIs200') },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                placeholder={localizationText('CreateTemple', 'enterTempleAddress')}
+                                style={[styles.input, errors.templeAddress && styles.errorInput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {errors.templeAddress && <Text style={styles.errorText}>{String(errors.templeAddress.message)}</Text>}
 
-                {/* Mobile No */}
-                <Text style={styles.label}>{localizationText('CreateTemple', 'mobileNo')}</Text>
-                <Controller
-                    control={control}
-                    name="mobileNo"
-                    rules={{
-                        required: localizationText('CreateTemple', 'mobileNoRequired'),
-                        minLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
-                        maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
-                        pattern: {
-                            value: /^[0-9]+$/,
-                            message: localizationText('ValidationMsg', 'mobileNoMustBeNumeric'),
-                        },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder={localizationText('CreateTemple', 'enterMobileNo')}
-                            keyboardType="numeric"
-                            style={[styles.input, errors.mobileNo && styles.errorInput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors.mobileNo?.message && <Text style={styles.errorText}>{String(errors.mobileNo.message)}</Text>}
+                    {/* Mobile No */}
+                    <Text style={styles.label}>{localizationText('CreateTemple', 'mobileNo')}</Text>
+                    <Controller
+                        control={control}
+                        name="mobileNo"
+                        rules={{
+                            required: localizationText('CreateTemple', 'mobileNoRequired'),
+                            minLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                            maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                            pattern: {
+                                value: /^[0-9]+$/,
+                                message: localizationText('ValidationMsg', 'mobileNoMustBeNumeric'),
+                            },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                placeholder={localizationText('CreateTemple', 'enterMobileNo')}
+                                keyboardType="numeric"
+                                style={[styles.input, errors.mobileNo && styles.errorInput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {errors.mobileNo?.message && <Text style={styles.errorText}>{String(errors.mobileNo.message)}</Text>}
 
-                {/* Email */}
-                <Text style={styles.label}>{localizationText('CreateTemple', 'email')}</Text>
-                <Controller
-                    control={control}
-                    name="email"
-                    rules={{
-                        required: localizationText('CreateTemple', 'emailRequired'),
-                        minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
-                        maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
-                        pattern: {
-                            value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                            message: localizationText('CreateTemple', 'emailMustBeValid'),
-                        },
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                        <TextInput
-                            placeholder={localizationText('CreateTemple', 'enterEmail')}
-                            keyboardType="email-address"
-                            style={[styles.input, errors.email && styles.errorInput]}
-                            onBlur={onBlur}
-                            onChangeText={onChange}
-                            value={value}
-                        />
-                    )}
-                />
-                {errors.email && <Text style={styles.errorText}>{String(errors.email.message)}</Text>}
+                    {/* Email */}
+                    <Text style={styles.label}>{localizationText('CreateTemple', 'email')}</Text>
+                    <Controller
+                        control={control}
+                        name="email"
+                        rules={{
+                            required: localizationText('CreateTemple', 'emailRequired'),
+                            minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
+                            maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
+                            pattern: {
+                                value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                                message: localizationText('CreateTemple', 'emailMustBeValid'),
+                            },
+                        }}
+                        render={({ field: { onChange, onBlur, value } }) => (
+                            <TextInput
+                                placeholder={localizationText('CreateTemple', 'enterEmail')}
+                                keyboardType="email-address"
+                                style={[styles.input, errors.email && styles.errorInput]}
+                                onBlur={onBlur}
+                                onChangeText={onChange}
+                                value={value}
+                            />
+                        )}
+                    />
+                    {errors.email && <Text style={styles.errorText}>{String(errors.email.message)}</Text>}
 
-                {/* Submit Button */}
-                <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
-            </View>
+                    {/* Submit Button */}
+                    <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
+                </View>
+            </ScrollView>
+            </KeyboardAvoidingView>
         </ScreenWrapper>
     )
 }
