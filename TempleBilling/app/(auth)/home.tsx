@@ -35,7 +35,7 @@ const Home = () => {
                     <View style={styles.imageRound}>
                       <Image source={category.image} style={styles.iconStyle} />
                     </View>
-                    <Text>{localizationText(category.labelParentKey, category.labelChildKey)}</Text>
+                    <Text style={{fontSize:12}}>{localizationText(category.labelParentKey, category.labelChildKey)}</Text>
                   </TouchableOpacity>
                 </Link>
               ))
@@ -54,9 +54,9 @@ const styles = StyleSheet.create({
     marginTop: 8, alignItems: 'center',
   },
   imageRound: {
-    height: 80, backgroundColor: appColors.themeColor, borderRadius: 100, margin: 10, width: 80, justifyContent: "center", alignItems: "center"
+    height: 50, backgroundColor: appColors.themeColor, borderRadius: 100, margin: 10, width: 50, justifyContent: "center", alignItems: "center"
   },
   iconStyle: {
-    height: 40, width: 40
+    height: 25, width: 25
   }
 })
