@@ -38,7 +38,8 @@
     "last6Months": "Last 6 Months",
     "thisYear": "This Year",
     "home": "Home",
-    "profile": "Profile"
+    "profile": "Profile",
+    "save": "Save"
   },
   "CreateTemple":{
     "templeName": "Temple Name",
@@ -62,6 +63,7 @@
 
   "ValidationMsg":{
     "minLengthIs5": "Minimum length is 5",
+    "minLengthIs6": "Minimum length is 6",
     "minLengthIs10": "Minimum length is 10",
     "maxLengthIs20": "Maximum length is 20",
     "maxLengthIs50": "Maximum length is 50",
@@ -74,21 +76,21 @@
   },
   "Donation":{
     "personName": "Person Name",
-    "donationAmount": "Donation Amount",
-    "donationDate": "Donation Date",
+    "donationAmount": "Amount",
+    "donationDate": "Date",
 
     "personNameRequired": "Person Name is required",
     "enterPersonName": "Enter Person Name",
-    "donationAmountRequired": "Donation Amount is required",
-    "enterDonationAmount": "Enter Donation Amount",
-    "donationType": "Donation Type",
+    "donationAmountRequired": "Amount is required",
+    "enterDonationAmount": "Enter Amount",
+    "donationType": "Type",
     "enterComments": "Enter Comments"
   },
   "Category": {
-   "undi":"undi",
-   "general":"general",
-   "others":"other",
-   "archagar":"archagar",
+   "undi":"Undi",
+   "general":"General",
+   "others":"Others",
+   "archagar":"Archagar",
    "goverTax":"Goverment Tax",
    "dailyExpanses":"Daily Expanses",
    "donation":"Donation",

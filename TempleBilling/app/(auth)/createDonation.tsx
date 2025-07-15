@@ -141,7 +141,6 @@ const CreateDonation = () => {
                                 control={control}
                                 name="email"
                                 rules={{
-                                    required: localizationText('CreateTemple', 'emailRequired'),
                                     minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
                                     maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
                                     pattern: {
@@ -171,7 +170,7 @@ const CreateDonation = () => {
                         rules={{
                             required: localizationText('Donation', 'donationAmountRequired'),
                             minLength: { value: 1, message: localizationText('ValidationMsg', 'valueMust1Digits') },
-                            // maxLength: { value: 10, message: localizationText('ValidationMsg', 'mobileNoMust10Digits') },
+                            maxLength: { value: 6, message: localizationText('ValidationMsg', 'minLengthIs6') },
                             pattern: {
                                 value: /^[0-9]+$/,
                                 message: localizationText('ValidationMsg', 'vauleMustBeNumeric'),
@@ -234,7 +233,7 @@ const CreateDonation = () => {
                         )}
                     />
 
-                    <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor}/>
+                    <Button title={localizationText('Common', 'save')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor}/>
 
                 </View>
             </ScrollView>

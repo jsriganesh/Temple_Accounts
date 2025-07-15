@@ -2,7 +2,7 @@ export const commonImages = {
 loginPageImage: 'https://t4.ftcdn.net/jpg/02/68/06/03/360_F_268060371_nFgoQQSnlBxODiV4pDpfq5vqXeavzisd.jpg',
 splashScreenImage:'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTa32fa3df33CG17wYJz7mieeDallbYRguBfQ&s'
 }
-export const AppName = 'Temple Billing';
+export const AppName = 'Temple Book';
 export const defaultLanguage = 'en';  // 'en' for English, 'tn' for Tamil
 
 export const appColors = {

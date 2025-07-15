@@ -136,7 +136,6 @@ const CreateTemple = () => {
                         control={control}
                         name="email"
                         rules={{
-                            required: localizationText('CreateTemple', 'emailRequired'),
                             minLength: { value: 5, message: localizationText('ValidationMsg', 'minLengthIs5') },
                             maxLength: { value: 50, message: localizationText('ValidationMsg', 'maxLengthIs50') },
                             pattern: {
@@ -158,7 +157,7 @@ const CreateTemple = () => {
                     {errors.email && <Text style={styles.errorText}>{String(errors.email.message)}</Text>}
 
                     {/* Submit Button */}
-                    <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
+                    <Button title={localizationText('Common', 'save')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
                 </View>
             </ScrollView>
             </KeyboardAvoidingView>

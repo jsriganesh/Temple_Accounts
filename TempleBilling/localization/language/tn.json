@@ -38,7 +38,9 @@
     "last6Months": "கடந்த 6 மாதங்கள்",
     "thisYear": "இந்த வருடம்",
      "home": "வீடு",
-    "profile": "சுயவிவரம்"
+    "profile": "சுயவிவரம்",
+    "save": "சேமிக்கவும்"
+
   },
   "CreateTemple": {
     "templeName": "கோவில் பெயர்",
@@ -62,6 +64,7 @@
 
 "ValidationMsg": {
     "minLengthIs5": "குறைந்தபட்ச நீளம் 5 ஆகும்",
+    "minLengthIs6": "குறைந்தபட்ச நீளம் 6 ஆகும்",
     "minLengthIs10": "குறைந்தபட்ச நீளம் 10 ஆகும்",
     "maxLengthIs20": "அதிகபட்ச நீளம் 20 ஆகும்",
     "maxLengthIs50": "அதிகபட்ச நீளம் 50 ஆகும்",
@@ -74,14 +77,14 @@
   },
   "Donation":{
     "personName": "பயனர் பெயர்",
-    "donationAmount": "நன்கொடை தொகை",
-    "donationDate": "நன்கொடை தேதி",
+    "donationAmount": "தொகை",
+    "donationDate": "தேதி",
 
     "personNameRequired": "பயனர் பெயர் தேவை",
     "enterPersonName": "பயனர் பெயரை உள்ளிடவும்",
-    "donationAmountRequired": "நன்கொடை தொகை தேவை",
-    "enterDonationAmount": "நன்கொடை தொகையை உள்ளிடவும்",
-    "donationType": "நன்கொடை வகை",
+    "donationAmountRequired": "தொகை தேவை",
+    "enterDonationAmount": "தொகையை உள்ளிடவும்",
+    "donationType": "வகை",
     "enterComments": "கருத்துகளை உள்ளிடவும்"
   },
   "Category": {

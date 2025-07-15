@@ -183,7 +183,7 @@ const AddressBook = () => {
 
 
         {/* Submit Button */}
-        <Button title={localizationText('CreateTemple', 'submit')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
+        <Button title={localizationText('Common', 'save')} onPress={handleSubmit(onSubmit)} color={appColors.themeColor} />
       </View>
     </ScreenWrapper>
   )
