@@ -1,0 +1,99 @@
+{
+  "Common": {
+    "userName": "User Name",
+    "password": "Password",
+    "submit": "Submit",
+    "loginWithGoogle": "Login with Google",
+    "createTemple": "Create Temple",
+    "collectDonations": "Collect Donations",
+
+    "income": "Income",
+    "expenses": "Expenses",
+    "reports": "Reports",
+    "receipts": "Receipts",
+    "catrgories": "Categories",
+
+    "selectType": "Select Type",
+    "seletIncomeType": "Select Income Type",
+    "selectExpenseType": "Select Expense Type",
+    "selectReceiptType": "Select Receipt Type",
+    "comments": "Comments",
+    "address": "Address",
+    "createAddress": "Create Address",
+    "date": "Date",
+    "amount": "Amount",
+    "paymentType": "Payment Type",
+    "name": "Name",
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "filter": "Filter",
+
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "last7Days": "Last 7 Days",
+    "thisMonth": "This Month",
+    "lastMonth": "Last Month",
+    "last2Months": "Last 2 Months",
+    "last3Months": "Last 3 Months",
+    "last6Months": "Last 6 Months",
+    "thisYear": "This Year",
+    "home": "Home",
+    "profile": "Profile"
+  },
+  "CreateTemple":{
+    "templeName": "Temple Name",
+    "templeAddress": "Temple Address",
+    "mobileNo": "Mobile Number",
+    "email": "Email",
+    "submit": "Submit",
+    "templeLogo": "Temple Logo",
+    "enterTempleName": "Enter Temple Name",
+    "enterTempleAddress": "Enter Temple Address",
+    "enterMobileNo": "Enter Mobile Number",
+    "enterEmail": "Enter Email",
+    
+    "templeNameRequired": "Temple Name is required",
+    "templeAddressRequired": "Temple Address is required",
+    "mobileNoRequired": "Mobile Number is required",
+    "emailRequired": "Email is required",
+    "invalidEmail": "Invalid Email Format",
+    "emailMustBeValid":"Enter a valid email address"
+  },
+
+  "ValidationMsg":{
+    "minLengthIs5": "Minimum length is 5",
+    "minLengthIs10": "Minimum length is 10",
+    "maxLengthIs20": "Maximum length is 20",
+    "maxLengthIs50": "Maximum length is 50",
+    "maxLengthIs100": "Maximum length is 100",
+    "maxLengthIs200": "Maximum length is 200",
+    "mobileNoMust10Digits":"Mobile No must be 10 digits",
+    "mobileNoMustBeNumeric":"Mobile No must contain only numbers",
+    "vauleMustBeNumeric":"value must contain only numbers",
+    "valueMust1Digits":"Minimum value must be 1"
+  },
+  "Donation":{
+    "personName": "Person Name",
+    "donationAmount": "Donation Amount",
+    "donationDate": "Donation Date",
+
+    "personNameRequired": "Person Name is required",
+    "enterPersonName": "Enter Person Name",
+    "donationAmountRequired": "Donation Amount is required",
+    "enterDonationAmount": "Enter Donation Amount",
+    "donationType": "Donation Type",
+    "enterComments": "Enter Comments"
+  },
+  "Category": {
+   "undi":"undi",
+   "general":"general",
+   "others":"other",
+   "archagar":"archagar",
+   "goverTax":"Goverment Tax",
+   "dailyExpanses":"Daily Expanses",
+   "donation":"Donation",
+   "annadhaanam":"Anadhanam",
+   "pooja":"Pooja",
+   "thirupani":"Thirupani"
+  }
+}

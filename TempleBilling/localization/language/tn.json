@@ -1,0 +1,100 @@
+{
+  "Common": {
+    "userName": "பயனர் பெயர்",
+    "password": "கடவுச்சொல்",
+    "submit": "சமர்ப்பிக்கவும்",
+    "loginWithGoogle": "Google மூலம் உள்நுழைக",
+    "createTemple": "Create Temple",
+    "collectDonations": "நன்கொடை சேகரிக்கவும்",
+
+    "income": "வருமானம்",
+    "expenses": "செலவுகள்",
+    "reports": "அறிக்கைகள்",
+    "receipts": "ரசீதுகள்",
+    "catrgories": "வகைகள்",
+
+    "selectType": "வகையைத் தேர்ந்தெடுக்கவும்",
+    "seletIncomeType": "வருமான வகையைத் தேர்ந்தெடுக்கவும்",
+    "selectExpenseType": "செலவு வகையைத் தேர்ந்தெடுக்கவும்",
+    "selectReceiptType": "ரசீதின் வகையைத் தேர்ந்தெடுக்கவும்",
+    "comments": "கருத்துகள்",
+    "address": "முகவரி",
+    "createAddress": "முகவரியை உருவாக்கவும்",
+    "date": "தேதி",
+    "amount": "தொகை",
+    "paymentType": "பணம் செலுத்தும் வகை",
+    "name": "பெயர்",
+    "fromDate": "From Date",
+    "toDate": "To Date",
+    "filter": "வடிகட்டி",
+
+    "today": "இன்று",
+    "yesterday": "நேற்று",
+    "last7Days": "கடந்த 7 நாட்கள்",
+    "thisMonth": "இந்த மாதம்",
+    "lastMonth": "கடந்த மாதம்",
+    "last2Months": "கடந்த 2 மாதங்கள்",
+    "last3Months": "கடந்த 3 மாதங்கள்",
+    "last6Months": "கடந்த 6 மாதங்கள்",
+    "thisYear": "இந்த வருடம்",
+     "home": "வீடு",
+    "profile": "சுயவிவரம்"
+  },
+  "CreateTemple": {
+    "templeName": "கோவில் பெயர்",
+    "templeAddress": "கோவில் முகவரி",
+    "mobileNo": "மொபைல் எண்",
+    "email": "மின்னஞ்சல்",
+    "submit": "சமர்ப்பிக்கவும்",
+    "templeLogo": "கோவில் புகைப்படம்",
+    "enterTempleName": "கோவில் பெயரை உள்ளிடவும்",
+    "enterTempleAddress": "கோவில் முகவரியை உள்ளிடவும்",
+    "enterMobileNo": "மொபைல் எண்ணை உள்ளிடவும்",
+    "enterEmail": "மின்னஞ்சலை உள்ளிடவும்",
+    
+    "templeNameRequired": "கோவில் பெயர் தேவை",
+    "templeAddressRequired": "கோவில் முகவரி தேவை",
+    "mobileNoRequired": "மொபைல் எண் தேவை",
+    "emailRequired": "மின்னஞ்சல் தேவை",
+    "invalidEmail": "தவறான மின்னஞ்சல் வடிவம்",
+    "emailMustBeValid": "சரியான மின்னஞ்சலை உள்ளிடவும்"
+},
+
+"ValidationMsg": {
+    "minLengthIs5": "குறைந்தபட்ச நீளம் 5 ஆகும்",
+    "minLengthIs10": "குறைந்தபட்ச நீளம் 10 ஆகும்",
+    "maxLengthIs20": "அதிகபட்ச நீளம் 20 ஆகும்",
+    "maxLengthIs50": "அதிகபட்ச நீளம் 50 ஆகும்",
+    "maxLengthIs100": "அதிகபட்ச நீளம் 100 ஆகும்",
+    "maxLengthIs200": "அதிகபட்ச நீளம் 200 ஆகும்",
+    "mobileNoMust10Digits": "மொபைல் எண் 10 இலக்கங்கள் இருக்க வேண்டும்",
+    "mobileNoMustBeNumeric": "மொபைல் எண் எண்களாக மட்டுமே இருக்க வேண்டும்",
+    "vauleMustBeNumeric":"value must contain only numbers",
+    "valueMust1Digits":"Minimum value must be 1"
+  },
+  "Donation":{
+    "personName": "பயனர் பெயர்",
+    "donationAmount": "நன்கொடை தொகை",
+    "donationDate": "நன்கொடை தேதி",
+
+    "personNameRequired": "பயனர் பெயர் தேவை",
+    "enterPersonName": "பயனர் பெயரை உள்ளிடவும்",
+    "donationAmountRequired": "நன்கொடை தொகை தேவை",
+    "enterDonationAmount": "நன்கொடை தொகையை உள்ளிடவும்",
+    "donationType": "நன்கொடை வகை",
+    "enterComments": "கருத்துகளை உள்ளிடவும்"
+  },
+  "Category": {
+    "undi":"உண்டியல்",
+    "general":"பொதுவான",
+    "others":"மற்றவை",
+    "archagar":"ஆர்ச்சகர்",
+    "goverTax":"அரசு வரி",
+    "dailyExpanses":"நாள் தோறும் செலவுகள்",
+    "donation":"நன்கொடை",
+    "annadhaanam":"அன்னதானம்",
+    "pooja":"பூஜை",
+    "thirupani":"திருப்பணி"
+   }
+ 
+}
