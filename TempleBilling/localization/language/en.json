@@ -39,7 +39,8 @@
     "thisYear": "This Year",
     "home": "Home",
     "profile": "Profile",
-    "save": "Save"
+    "save": "Save",
+    "monthlyReport": "Monthly Report"
   },
   "CreateTemple":{
     "templeName": "Temple Name",

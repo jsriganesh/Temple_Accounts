@@ -32,7 +32,7 @@ const Login = () => {
 
       {/* Submit Button */}
       <Button title={localizationText('Common', 'save')} onPress={() => {
-        router.push('/(auth)/createTemple')
+        router.push('/(auth)/home')
       }} />
 
       {/* Login with Google Button */}

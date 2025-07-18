@@ -1,4 +1,5 @@
 import HomeScreenBanner from '@/components/banner';
+import DonutPieChart from '@/components/donutChart';
 import Header from '@/components/header';
 import ScreenWrapper from '@/components/screenWrapper';
 import { localizationText } from '@/constants/commonMenthod';
@@ -42,6 +43,11 @@ const Home = () => {
             }
           </View>
         </ScrollView>
+
+        <View style={{ marginHorizontal: 10,marginTop:16 }}>
+          <Text style={{ fontSize: 14, fontWeight: 'bold' }}>{localizationText('Common', 'monthlyReport')}</Text>
+        </View>
+        <DonutPieChart/>
       </View>
     </ScreenWrapper>
   )

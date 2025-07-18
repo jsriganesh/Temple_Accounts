@@ -39,8 +39,8 @@
     "thisYear": "இந்த வருடம்",
      "home": "வீடு",
     "profile": "சுயவிவரம்",
-    "save": "சேமிக்கவும்"
-
+    "save": "சேமிக்கவும்",
+    "monthlyReport": "மாதாந்திர அறிக்கை"
   },
   "CreateTemple": {
     "templeName": "கோவில் பெயர்",

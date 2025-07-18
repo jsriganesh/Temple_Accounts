@@ -21,3 +21,13 @@ export const DateFilterOptions =[
     {value:'Last 6 month',key:'last 6 months',parentKey:'Common',childKey:'last6Months'},  // includig current month 
     {value:'This year',key:'this year',parentKey:'Common',childKey:'thisYear'},  // includig current month 
 ]
+
+
+const HEX_LETTERS = "0123456789ABCDEF";
+
+export const getRandomColor = () => {
+  const colorArr = Array(6)
+    .fill(0)
+    .map(_ => HEX_LETTERS[Math.floor(Math.random() * 16)]);
+  return ["#", ...colorArr].join("");
+};
