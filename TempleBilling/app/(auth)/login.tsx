@@ -1,12 +1,37 @@
 import { localizationText } from '@/constants/commonMenthod'
 import { AppName, commonImages } from '@/constants/constant'
+import { updateUserDetails } from '@/redux/slices/commonSlice'
+import { useAppDispatch } from '@/redux/store'
+import { postRequest } from '@/services/axiosService'
+import { EndPoint } from '@/services/endPoint'
 import { useRouter } from 'expo-router'
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Image, StyleSheet, Text, TextInput, View } from 'react-native'
 
 const Login = () => {
+  const dispatch = useAppDispatch();
 
+  const [emailID,setEmailID]=useState<string>('test@gmail.com')
+  const [ password, setPassword ]=useState<string>('a12345')
   const router = useRouter()
+
+  const doLogin=()=>{
+    postRequest(EndPoint.login, { emailID: emailID, password: password }, (data) => {
+      console.log('Login successful:', data);
+      dispatch(updateUserDetails(data));
+      if( data?.templeDetails?.length > 0 ){
+        router.push('/(auth)/home')
+      }else{
+        router.push('/(auth)/createTemple')
+      }
+      // Handle successful login, e.g., navigate to home screen
+    }
+      , (error) => {
+      console.error('Login failed:', error);
+      // Handle login error, e.g., show an error message
+    });
+  }
+
   return (
     <View style={styles.container}>
 
@@ -23,17 +48,19 @@ const Login = () => {
       <TextInput
         placeholder={localizationText('Common', 'userName')}
         style={styles.input}
+        value={emailID}
+        onChangeText={(text) => setEmailID(text)}
       />
       <TextInput
         placeholder={localizationText('Common', 'password')}
         secureTextEntry
         style={styles.input}
+        value={password}
+        onChangeText={(text) => setPassword(text)}
       />
 
       {/* Submit Button */}
-      <Button title={localizationText('Common', 'save')} onPress={() => {
-        router.push('/(auth)/home')
-      }} />
+      <Button title={localizationText('Common', 'save')} onPress={() => {  doLogin() }} />
 
       {/* Login with Google Button */}
       <View style={styles.googleButton}>

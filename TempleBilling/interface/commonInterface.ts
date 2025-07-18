@@ -13,4 +13,28 @@ export interface categoriesOptionsProps {
     labelParentKey:string; labelChildKey:string;
 }
 
+
+export interface UserDetails {
+    _id: string;
+    emailID: string;
+    mobileNo: number;
+    token: string;
+    type: string;
+    userID: string;
+    userName:string,
+    templeDetails: TempleDetailsProps[];
+}
+
+export interface TempleDetailsProps {
+    _id: string;
+    templeName: string;
+    mobileNo: number;
+    emailID: string;
+    address: string;
+    templeImage: string;
+    templeID: string;
+    bannerImages: string[];
+    __v: number;    
+}
+
 export type FilterDatesProps = { fromDate: Date; toDate: Date }

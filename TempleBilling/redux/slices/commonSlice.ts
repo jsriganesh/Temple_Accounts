@@ -1,6 +1,6 @@
 
 
-import { categorieProps } from "@/interface/commonInterface"
+import { categorieProps, UserDetails } from "@/interface/commonInterface"
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 // import { DietPlanListDetails, MemberDetails, PackageListDetailsDetailsProps } from "../../interface/common"
@@ -55,6 +55,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 const commonSlice = createSlice({
   name: "commonData",
   initialState: {
+    userDetails:{} as UserDetails,
     categorys: [
       { id: 1, labelParentKey:'Common' ,labelChildKey:'income', name: 'income', image: require('../../assets/images/categoryImage/income.png'),
           options: [
@@ -87,12 +88,15 @@ const commonSlice = createSlice({
     updateMemberList(state, action: PayloadAction<categorieProps[]>) {
         state.categorys = action.payload
       },
-      
+
+      updateUserDetails(state, action: PayloadAction<UserDetails>) {
+        state.userDetails = action.payload
+      },
   
   }
 })
 export const { 
-  updateMemberList,
+  updateMemberList,updateUserDetails
 } = commonSlice.actions
 
 export default commonSlice.reducer

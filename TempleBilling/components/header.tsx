@@ -2,8 +2,11 @@ import { commonImages } from '@/constants/constant'
 import React from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import LanguageSelect from './languageDropDown'
+import { useAppSelector } from '@/redux/store'
 
 const Header = () => {
+    const { userDetails } = useAppSelector((state) => state.commonData);
+  
   return (
     <View style={styles.header}>
     {/* App Name */}
@@ -19,7 +22,7 @@ const Header = () => {
       {/* Profile Image */}
       <TouchableOpacity onPress={() => console.log('Profile')}>
         <Image
-          source={{ uri: commonImages.loginPageImage }} 
+          source={{ uri:userDetails.templeDetails[0].templeImage || commonImages.loginPageImage }} 
           style={styles.profileImage}
         />
       </TouchableOpacity>
