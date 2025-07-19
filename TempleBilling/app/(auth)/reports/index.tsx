@@ -4,7 +4,7 @@ import ScreenWrapper from '@/components/screenWrapper';
 import { converNumberToRupee, localizationText } from '@/constants/commonMenthod';
 import { appColors } from '@/constants/constant';
 import { receiptsReportData } from '@/constants/sampleResponces';
-import { categorieProps, FilterDatesProps, ReportDataProps } from '@/interface/commonInterface';
+import { categorieProps, categoriesOptionsProps, FilterDatesProps, ReportDataProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
 import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
@@ -12,13 +12,50 @@ import { generatePDF } from './pdfTemplate';
 import moment from 'moment';
 import { postRequest } from '@/services/axiosService';
 import { EndPoint } from '@/services/endPoint';
+import {
+  Menu,
+  MenuOption,
+  MenuOptions,
+  MenuTrigger,
+} from 'react-native-popup-menu';
+import { Ionicons } from '@expo/vector-icons';
+
+
+export const triggerStyles = {
+  triggerTouchable: {
+      underlayColor: appColors.themeColor,
+      borderRadius: 10,
+      activeOpacity: 0.5,
+  },
+};
+
+export const optionsStyles = {
+  optionsContainer: {
+      borderRadius: 6,
+      paddingVertical: 5,
+      marginTop: 30,
+      width: 120,
+      alignItems: 'center' as 'center',
+  },
+  optionWrapper: {
+      paddingHorizontal: 10,
+      paddingVertical: 5,
+  },
+  optionTouchable: {
+      underlayColor: appColors.themeColor,
+      activeOpacity: 0.5,
+  },
+};
 
 const Reports = () => {
   const [repotDetails,setRepotDetails]=useState<ReportDataProps| null>(null)
   const { categorys, userDetails } = useAppSelector((state) => state.commonData)
   const [dates, setDates] = useState<FilterDatesProps>({ fromDate: new Date(), toDate: new Date() })
+  const [selectedOption, setSelectedOption] = useState<categoriesOptionsProps | null>();
 
   const [selectedCategory, setSelectedCategory] = useState<categorieProps | null>(categorys[0]);
+  const options = selectedCategory && selectedCategory.id ? categorys.find((cat) => cat.id == selectedCategory.id)?.options || []
+  : []
 
   const generateReports = () => {
 
@@ -65,7 +102,7 @@ const Reports = () => {
       userID: userDetails.userID,
       templeID: userDetails.templeDetails[0].templeID,
       categoryID: selectedCategory?.id,
-      // "typeID": 3
+      typeID: selectedOption ? selectedOption.id : '',
     }
 
     postRequest(EndPoint.billHistory, data, (responce) => {
@@ -84,7 +121,7 @@ const Reports = () => {
 
   useEffect(() => {
     getReport()
-  }, [selectedCategory, dates]);
+  }, [selectedCategory, dates,selectedOption]);
 
 
   return (
@@ -110,6 +147,42 @@ const Reports = () => {
                 }
               </View>
             </ScrollView>
+          </View>
+
+          <View>
+          <Menu>
+                <MenuTrigger customStyles={triggerStyles}>
+                    <View
+                        style={styles.filterButtonStyle}>
+                        <Text style={{ color: appColors.themeColor, marginRight: 10 ,fontSize:14}}>
+                            { selectedOption ? localizationText(selectedOption.labelParentKey,selectedOption.labelChildKey) : localizationText('Common','selectType')}
+                        </Text>
+
+                        <Ionicons
+                            name='chevron-down'
+                            size={20}
+                            color={appColors.themeColor}
+                        />
+                    </View>
+                </MenuTrigger>
+                <MenuOptions customStyles={optionsStyles}>
+                          <MenuOption
+                                key={-1}
+                                onSelect={() =>setSelectedOption(null)}>
+                                <Text style={{fontSize:12}}>{localizationText('Common','selectType')}</Text>
+                            </MenuOption>
+                    {options.map((data, index) => {
+                        return (
+                            <MenuOption
+                                key={index}
+                                onSelect={() =>setSelectedOption(data)}>
+                                <Text style={{fontSize:12}}>{localizationText(data.labelParentKey,data.labelChildKey)}</Text>
+                            </MenuOption>
+                        );
+                    })}
+                </MenuOptions>
+            </Menu>
+
           </View>
 
           <PageFilterDates
@@ -265,5 +338,18 @@ const styles = StyleSheet.create({
   },
   activeText: {
     color: "white",
-  }
+  },
+  filterButtonStyle: {
+    marginTop:16,
+    flexDirection: 'row',
+    borderRadius: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'flex-start',
+    paddingHorizontal: 10,
+    borderColor: appColors.themeColor,
+    borderWidth: 0.5,
+    paddingVertical: 5,
+}
+
 })
