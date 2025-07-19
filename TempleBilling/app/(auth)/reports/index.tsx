@@ -4,51 +4,88 @@ import ScreenWrapper from '@/components/screenWrapper';
 import { converNumberToRupee, localizationText } from '@/constants/commonMenthod';
 import { appColors } from '@/constants/constant';
 import { receiptsReportData } from '@/constants/sampleResponces';
-import { categorieProps } from '@/interface/commonInterface';
+import { categorieProps, FilterDatesProps, ReportDataProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
-import React, { useState } from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { generatePDF } from './pdfTemplate';
+import moment from 'moment';
+import { postRequest } from '@/services/axiosService';
+import { EndPoint } from '@/services/endPoint';
 
 const Reports = () => {
-  const { categorys } = useAppSelector((state) => state.commonData)
-  // const [options, selectOptions] = useState<categoriesOptionsProps[] | []>([]);
-  // const [selectedType, setSelectedType] = useState('');
+  const [repotDetails,setRepotDetails]=useState<ReportDataProps| null>(null)
+  const { categorys, userDetails } = useAppSelector((state) => state.commonData)
+  const [dates, setDates] = useState<FilterDatesProps>({ fromDate: new Date(), toDate: new Date() })
 
   const [selectedCategory, setSelectedCategory] = useState<categorieProps | null>(categorys[0]);
 
   const generateReports = () => {
-  
-          const templeDetails = {
-            templeName: "அருள் மிகு ஸ்ரீ தட்சிணாமூர்த்தி கோவில்",
-            templeAddress: "திருவாரூர் மாவட்டம், திருவாரூர்",
-            templeImage: "https://thumbs.dreamstime.com/b/indian-temple-3396438.jpg",
-          }
-  
-          const data = {
-            templeDetails: templeDetails,
-            // reportType: localizationText('Common', 'incomeType'),
-            reportType: 'Income Type',
-            report: receiptsReportData,
-            reportHeaders: [
-              // localizationText('ReportHeaders', 'id'),
-              // localizationText('ReportHeaders', 'date'),
-              // localizationText('ReportHeaders', 'name'),
-              // localizationText('ReportHeaders', 'type'),
-              // localizationText('ReportHeaders', 'amount'),
-              // localizationText('ReportHeaders', 'paymentType'),
-              // localizationText('ReportHeaders', 'comments'),
-              'ID',
-              'Date',
-              'Name',
-              'Type',
-              'Amount',
-              'Payment Type',
-              'Comments',
-              ]
-          }
-          generatePDF(data)
+
+    const templeDetails = {
+      templeName: "அருள் மிகு ஸ்ரீ தட்சிணாமூர்த்தி கோவில்",
+      templeAddress: "திருவாரூர் மாவட்டம், திருவாரூர்",
+      templeImage: "https://thumbs.dreamstime.com/b/indian-temple-3396438.jpg",
+    }
+
+    const data = {
+      templeDetails: templeDetails,
+      // reportType: localizationText('Common', 'incomeType'),
+      reportType: 'Income Type',
+      report: receiptsReportData,
+      reportHeaders: [
+        // localizationText('ReportHeaders', 'id'),
+        // localizationText('ReportHeaders', 'date'),
+        // localizationText('ReportHeaders', 'name'),
+        // localizationText('ReportHeaders', 'type'),
+        // localizationText('ReportHeaders', 'amount'),
+        // localizationText('ReportHeaders', 'paymentType'),
+        // localizationText('ReportHeaders', 'comments'),
+        'ID',
+        'Date',
+        'Name',
+        'Type',
+        'Amount',
+        'Payment Type',
+        'Comments',
+      ]
+    }
+    generatePDF(data)
+  }
+
+  console.log(repotDetails, 'repotDetails?.list.length');
+  const getReport = () => {
+
+    const fromDate = dates.fromDate
+    const clonedDate = new Date(fromDate.getTime()); // Clone using getTime()
+    clonedDate.setDate(clonedDate.getDate() - 1);
+    const data = {
+      fromDate: moment(clonedDate).format('YYYY-MM-DD') + 'T:18:30.00Z',
+      toDate: moment(dates.toDate).format('YYYY-MM-DD') + 'T:18:29.59Z',
+      userID: userDetails.userID,
+      templeID: userDetails.templeDetails[0].templeID,
+      categoryID: selectedCategory?.id,
+      // "typeID": 3
+    }
+
+    postRequest(EndPoint.billHistory, data, (responce) => {
+        if (responce.list.length > 0) {
+          console.log('receiptsReportData', responce);
+          setRepotDetails(responce);
+        } else {
+          setRepotDetails(null);
         }
+    }
+      , (error) => {
+        console.log('error', error);
+      }
+    )
+  }
+
+  useEffect(() => {
+    getReport()
+  }, [selectedCategory, dates]);
+
 
   return (
     <ScreenWrapper>
@@ -61,9 +98,7 @@ const Reports = () => {
               <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
                 {
                   categorys.map((category, index) => (
-                    <TouchableOpacity style={selectedCategory?.id == category.id ?  styles.categopryContainer : styles.categopryInactiveContainer} onPress={() => {
-                      console.log('category', category);
-                      console.log('categorys', categorys);
+                    <TouchableOpacity style={selectedCategory?.id == category.id ? styles.categopryContainer : styles.categopryInactiveContainer} onPress={() => {
                       setSelectedCategory(category)
                     }} key={index}>
                       <View style={selectedCategory?.id == category.id ? styles.activeImageRound : styles.activeInImageRound}>
@@ -77,56 +112,40 @@ const Reports = () => {
             </ScrollView>
           </View>
 
-          <PageFilterDates 
-          generateReports={generateReports}
-          filterDateDetails={(date) => {
-            console.log('date', date);
-          }} />
+          <PageFilterDates
+            generateReports={generateReports}
+            filterDateDetails={(date) => {
+              setDates(date);
+              console.log('date', date);
+            }} />
 
-          {/* {selectedCategory?.id != 3 ? 
-          <View style={{ marginTop: 16,flex:1 }}>
-              <View style={{ display: 'flex',flexDirection:'row' }}>
-                <View style={styles.collumn1}><Text style={styles.headerText}>{localizationText('Common','date')}</Text></View>
-                <View style={styles.collumn2}><Text style={styles.headerText}>{localizationText('Common','amount')}</Text></View>
-                <View style={styles.collumn3}><Text style={styles.headerText}>{localizationText('Common','paymentType')}</Text></View>
-                <View style={styles.collumn4}><Text style={styles.headerText}>{localizationText('Common','comments')}</Text></View>
-              </View>
-              {inComeReportData.map((data,index)=>{
-                return (
-                  <View key={index} style={{ display: 'flex',flexDirection:'row' ,marginVertical: 5}}>
-                    <View style={[styles.collumn1]}><Text>{data.date}</Text></View>
-                    <View style={styles.collumn2}><Text>{converNumberToRupee(data.amount)}</Text></View>
-                    <View style={styles.collumn3}><Text>{data.paymentType}</Text></View>
-                    <View style={styles.collumn4}><Text>{data.comments}</Text></View>
-                  </View>
-                )
-              })}
-          </View>
-            : */}
-           <View style={{ marginTop: 16,flex:1 }}>
-              <ScrollView horizontal>
-                <View>
-                <View style={{ display: 'flex',flexDirection:'row' }}>
-                  <View style={styles.fCollumn1}><Text style={styles.headerText}>{localizationText('Common','date')}</Text></View>
-                  <View style={styles.fCollumn2}><Text style={styles.headerText}>{localizationText('Common','name')}</Text></View>
-                  <View style={styles.fCollumn3}><Text style={styles.headerText}>{localizationText('Common','amount')}</Text></View>
-                  <View style={styles.fCollumn4}><Text style={styles.headerText}>{localizationText('Common','paymentType')}</Text></View>
-                  <View style={styles.fCollumn5}><Text style={styles.headerText}>{localizationText('Common','comments')}</Text></View>
+          <View style={{ marginTop: 16, flex: 1 }}>
+            <ScrollView horizontal>
+              <View>
+                <View style={{ display: 'flex', flexDirection: 'row' }}>
+                  <View style={styles.fCollumn1}><Text style={styles.headerText}>{localizationText('Common', 'date')}</Text></View>
+                  <View style={styles.fCollumn3}><Text style={styles.headerText}>{localizationText('Donation', 'donationType')}</Text></View>
+
+                  <View style={[styles.fCollumn2,selectedCategory?.id != 3 && {display:'none'}]}><Text style={styles.headerText}>{localizationText('Common', 'name')}</Text></View>
+                  <View style={styles.fCollumn3}><Text style={styles.headerText}>{localizationText('Common', 'amount')}</Text></View>
+                  <View style={styles.fCollumn4}><Text style={styles.headerText}>{localizationText('Common', 'paymentType')}</Text></View>
+                  <View style={styles.fCollumn5}><Text style={styles.headerText}>{localizationText('Common', 'comments')}</Text></View>
                 </View>
-                {receiptsReportData.map((data,index)=>{
+                {repotDetails?.list.map((data, index) => {
                   return (
-                    <View key={index} style={{ display: 'flex',flexDirection:'row' ,marginVertical: 5}}>
-                      <View style={styles.fCollumn1}><Text>{data.date}</Text></View>
-                      <View style={styles.fCollumn2}><Text>{data.name}</Text></View>
+                    <View key={index} style={{ display: 'flex', flexDirection: 'row', marginVertical: 5 }}>
+                      <View style={styles.fCollumn1}><Text>{moment(data.createdDate).format('YYYY-MM-DD')}</Text></View>
+                      <View style={styles.fCollumn3}><Text>{data.typeName}</Text></View>
+                      <View style={[styles.fCollumn2,selectedCategory?.id != 3 && {display:'none'}]}><Text>{data.personName || '-'}</Text></View>
                       <View style={styles.fCollumn3}><Text>{converNumberToRupee(data.amount)}</Text></View>
                       <View style={styles.fCollumn4}><Text>{data.paymentType}</Text></View>
                       <View style={styles.fCollumn5}><Text>{data.comments}</Text></View>
                     </View>
                   )
                 })}
-                </View>
-              </ScrollView>
-        </View>
+              </View>
+            </ScrollView>
+          </View>
           {/* }  */}
         </ScrollView>
       </View>
@@ -139,31 +158,15 @@ export default Reports
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: 16,
     padding: 16,
     paddingTop: 0,
     backgroundColor: '#fff',
   },
-  // categopryContainer: {
-  //   marginRight: 16,
-  //   alignItems: 'center',
-  // },
-  // activeImageRound: {
-  //   height: 40,width: 40,  backgroundColor: appColors.themeColor, borderRadius: 100, margin: 5, justifyContent: "center", alignItems: "center"
-  // },
-  // activeInImageRound: {
-  //   height: 40, width: 40, borderWidth: 2, borderColor: appColors.themeColor, borderRadius: 100, margin: 5, justifyContent: "center", alignItems: "center"
-  // },
-  // iconStyle: {
-  //   height: 25, width: 25
-  // },
-
-
   categopryContainer: {
     marginRight: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection:'row',
+    flexDirection: 'row',
     height: 30,
     backgroundColor: appColors.themeColor,
     borderWidth: 2,
@@ -177,7 +180,7 @@ const styles = StyleSheet.create({
     marginRight: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection:'row',
+    flexDirection: 'row',
     height: 30,
     // backgroundColor: appColors.themeColor,
     borderWidth: 2,
@@ -188,14 +191,14 @@ const styles = StyleSheet.create({
 
 
   activeImageRound: {
-      // backgroundColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
+    // backgroundColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
   },
   activeInImageRound: {
     //  borderWidth: 2, borderColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
   },
   iconStyle: {
     height: 20, width: 20,
-    marginRight:10
+    marginRight: 10
   },
 
   label: {
@@ -224,43 +227,43 @@ const styles = StyleSheet.create({
   },
 
   collumn1: {
-    flex:0.24
+    flex: 0.24
   },
 
   collumn2: {
-    flex:0.23
+    flex: 0.23
   },
   collumn3: {
-    flex:0.25
+    flex: 0.25
   },
   collumn4: {
-    flex:0.28
+    flex: 0.28
   },
 
 
 
   fCollumn1: {
-    width:100
+    width: 100
   },
 
   fCollumn2: {
-    width:100
+    width: 100
   },
   fCollumn3: {
-    width:100
+    width: 100
   },
   fCollumn4: {
-    width:100
+    width: 100
   },
 
   fCollumn5: {
-    width:200
+    width: 200
   },
 
-  inactiveText:{
-    color:"black",
+  inactiveText: {
+    color: "black",
   },
-  activeText:{
-    color:"white",
+  activeText: {
+    color: "white",
   }
 })

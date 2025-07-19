@@ -40,7 +40,8 @@
     "home": "Home",
     "profile": "Profile",
     "save": "Save",
-    "monthlyReport": "Monthly Report"
+    "monthlyReport": "Monthly Report",
+    "recordSavedSuccessfully": "Record saved successfully"
   },
   "CreateTemple":{
     "templeName": "Temple Name",

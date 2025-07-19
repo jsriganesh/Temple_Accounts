@@ -11,19 +11,27 @@ import { appColors } from '@/constants/constant';
 import { categorieProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
 import { Picker } from '@react-native-picker/picker';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import { postRequest } from '@/services/axiosService';
+import { EndPoint } from '@/services/endPoint';
 
 
 const CreateDonation = () => {
+        // const { userDetails } = useAppSelector((state) => state.commonData);
+      const router = useRouter()
+    
     const params = useLocalSearchParams() as unknown as categorieProps;
+    const { categorys,userDetails } = useAppSelector((state) => state.commonData)
 
     const category = params;
+    const options = category.id ? categorys.find((cat) => cat.id == category.id)?.options || []
+        : []
 
     // console.log('params', params);
     console.log('params', params);
     // console.log('category', category);
     const [selectedDonationType, setSelectedDonationType] = useState('cash');
-    const [selectedType, setSelectedType] = useState('');
+    const [selectedType, setSelectedType] = useState(options.length > 0 ? options[0].id : '');
 
     const {
         control,
@@ -32,18 +40,44 @@ const CreateDonation = () => {
     } = useForm()
 
     const [image, setImage] = useState<string | null>(null);
-    const { categorys } = useAppSelector((state) => state.commonData)
 
 
     console.log('errors', errors)
     const onSubmit = (data: any) => {
-        Alert.alert('Form Submitted', JSON.stringify(data))
+        const formData = {
+            userID:parseInt(userDetails.userID),
+            templeID:parseInt(userDetails.templeDetails[0].templeID),
+            categoryName:category.name,
+            categoryID: parseInt(category.id.toString()),
+            amount: parseInt(data.donationAmount),
+            paymentType: selectedDonationType,
+            
+            typeName:options.find((opt) => opt.id == selectedType)?.name || '',
+            typeID:parseInt(selectedType.toString()),
+            comments: data.comments || '',
+
+            personName: data.personName || '',
+            mobileNo: data.mobileNo || '',
+            email: data.email || '',
+        }
+
+        postRequest(EndPoint.bills, formData, (response) => {
+            console.log('Donation created successfully:', response);
+            Alert.alert('Donation created successfully');
+            router.push('/(auth)/home')
+        }, (error) => {
+            console.error('Error creating donation:', error);
+            // Alert.alert('Form Error', JSON.stringify(error))
+            // Alert.alert(localizationText('Common', 'error'), localizationText('Donation', 'errorCreatingDonation'));
+        });
+
+        // Alert.alert('Form Submitted', JSON.stringify(data))
     }
 
-    const options = category.id ? categorys.find((cat) => cat.id == category.id)?.options || []
-        : []
     // && category?.options ? category?.options :[]
     console.log('optionsoptions', JSON.parse(JSON.stringify(options)))
+
+
 
     return (
         <ScreenWrapper>
@@ -218,7 +252,7 @@ const CreateDonation = () => {
                     <Text style={styles.label}>{localizationText('Common', 'comments')}</Text>
                     <Controller
                         control={control}
-                        name="personName"
+                        name="comments"
 
                         render={({ field: { onChange, onBlur, value } }) => (
                             <TextInput

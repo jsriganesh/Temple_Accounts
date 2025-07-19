@@ -40,7 +40,8 @@
      "home": "வீடு",
     "profile": "சுயவிவரம்",
     "save": "சேமிக்கவும்",
-    "monthlyReport": "மாதாந்திர அறிக்கை"
+    "monthlyReport": "மாதாந்திர அறிக்கை",
+    "recordSavedSuccessfully": "பதிவு வெற்றிகரமாக சேமிக்கப்பட்டது"
   },
   "CreateTemple": {
     "templeName": "கோவில் பெயர்",

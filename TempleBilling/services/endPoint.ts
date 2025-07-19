@@ -10,6 +10,7 @@ export const EndPoint = {
     // membersPaymentChartDetails:'/members/dueAmountChartDetails',
 
     login:'login',
-
-
+    bills:'bills',
+    temple:'temple/',
+    billHistory:'bills/history'
 }

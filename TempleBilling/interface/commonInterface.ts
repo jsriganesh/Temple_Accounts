@@ -38,3 +38,29 @@ export interface TempleDetailsProps {
 }
 
 export type FilterDatesProps = { fromDate: Date; toDate: Date }
+
+
+
+export interface ReportListProps {
+__v: number;
+_id: string;
+amount: number;
+billID: number;
+categoryID: number;
+categoryName: string;
+comments: string;
+createdDate: string;
+paymentType: string;
+templeID: number;
+typeID: number;
+typeName: string;
+userID: number;
+personName?: string;
+mobileNo?:string;
+emailID?:string;
+}
+export interface ReportDataProps  {
+    list:ReportListProps[] ;
+    totalAmount: number;
+    totalCount: number;
+}
