@@ -41,7 +41,10 @@
     "profile": "சுயவிவரம்",
     "save": "சேமிக்கவும்",
     "monthlyReport": "மாதாந்திர அறிக்கை",
-    "recordSavedSuccessfully": "பதிவு வெற்றிகரமாக சேமிக்கப்பட்டது"
+    "recordSavedSuccessfully": "பதிவு வெற்றிகரமாக சேமிக்கப்பட்டது",
+    "download": "பதிவிறக்கவும்",
+    "totalAmount": "மொத்த தொகை"
+
   },
   "CreateTemple": {
     "templeName": "கோவில் பெயர்",

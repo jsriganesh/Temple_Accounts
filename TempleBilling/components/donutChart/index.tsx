@@ -3,24 +3,25 @@ import React, { useState } from 'react'
 import { StyleSheet,View } from 'react-native'
 import Pie from '../../components/donutChart/DonutPie'
 import { converNumberToRupee } from '@/constants/commonMenthod'
+import { pieDataProps } from '@/interface/commonInterface'
 
 
 
-const pieData = [
-  { "value": 1000, "name": "Income", "color": "#35B82A" },
-  { "value": 1700, "name": "Expance", "color": "#F74C0B" },
-  { "value": 2000, "name": "Recepit", "color": "#B0ED36" },
-]
+// const pieData = [
+//   { "value": 1000, "name": "Income", "color": "#35B82A" },
+//   { "value": 1700, "name": "Expance", "color": "#F74C0B" },
+//   { "value": 2000, "name": "Recepit", "color": "#B0ED36" },
+// ]
 
 
 // const pieData =  //data.data.map(item => ({ ...item, color: getRandomColor() }));
 
 
-const getInnerText = (index: number, dataAsset: any) => index < 0
+const getInnerText = (index: number, dataAsset: any,holdingAmount:any) => index < 0
   ? {
     index: -1,
     name: `Holding Amount`,
-    value:10000
+    value:parseInt(holdingAmount)
   }
   : {
     index,
@@ -31,13 +32,18 @@ const getInnerText = (index: number, dataAsset: any) => index < 0
 const CANVAS_SIZE = 200;
 
 
-const DonutPieChart = () => {
+interface DonutPieChartProps {
+  pieData:pieDataProps[]
+  holdingAmount:number
+}
 
-  const [selectedPie, setSelectedPie] = useState(getInnerText(-1, pieData));
-  console.log('selectedPie', selectedPie);
+const DonutPieChart = ({pieData,holdingAmount}:DonutPieChartProps) => {
+
+  const [selectedPie, setSelectedPie] = useState(getInnerText(-1, pieData,holdingAmount));
+  console.log('holdingAmount', holdingAmount);
   const onPieItemSelected = (newIndex: number) => () =>
     setSelectedPie(
-      getInnerText(newIndex === selectedPie.index ? -1 : newIndex, pieData)
+      getInnerText(newIndex === selectedPie.index ? -1 : newIndex, pieData,holdingAmount)
     );
 
 

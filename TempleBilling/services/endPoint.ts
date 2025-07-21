@@ -12,5 +12,7 @@ export const EndPoint = {
     login:'login',
     bills:'bills',
     temple:'temple/',
-    billHistory:'bills/history'
+    billHistory:'bills/history',
+    dashboard:'dashboard',
+
 }

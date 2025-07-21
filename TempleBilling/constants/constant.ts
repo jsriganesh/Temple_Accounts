@@ -31,3 +31,10 @@ export const getRandomColor = () => {
     .map(_ => HEX_LETTERS[Math.floor(Math.random() * 16)]);
   return ["#", ...colorArr].join("");
 };
+
+
+export const defaultPieData = [
+    { "value": 0, "name": "Income", "color": "#35B82A" },
+    { "value": 0, "name": "Expance", "color": "#F74C0B" },
+    { "value": 0, "name": "Recepit", "color": "#B0ED36" },
+  ]

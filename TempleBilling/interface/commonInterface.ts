@@ -64,3 +64,10 @@ export interface ReportDataProps  {
     totalAmount: number;
     totalCount: number;
 }
+
+
+export interface pieDataProps{
+    value: number;
+    name: string;
+    color: string;
+}

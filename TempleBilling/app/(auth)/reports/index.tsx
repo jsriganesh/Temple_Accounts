@@ -19,6 +19,7 @@ import {
   MenuTrigger,
 } from 'react-native-popup-menu';
 import { Ionicons } from '@expo/vector-icons';
+import CategorySelection from './categorySelection';
 
 
 export const triggerStyles = {
@@ -54,8 +55,10 @@ const Reports = () => {
   const [selectedOption, setSelectedOption] = useState<categoriesOptionsProps | null>();
 
   const [selectedCategory, setSelectedCategory] = useState<categorieProps | null>(categorys[0]);
-  const options = selectedCategory && selectedCategory.id ? categorys.find((cat) => cat.id == selectedCategory.id)?.options || []
-  : []
+  
+  const [options, setOptions] = useState<categoriesOptionsProps[] | []>([]);
+
+
 
   const generateReports = () => {
 
@@ -90,7 +93,7 @@ const Reports = () => {
     generatePDF(data)
   }
 
-  console.log(repotDetails, 'repotDetails?.list.length');
+  // console.log(repotDetails, 'repotDetails?.list.length');
   const getReport = () => {
 
     const fromDate = dates.fromDate
@@ -107,7 +110,7 @@ const Reports = () => {
 
     postRequest(EndPoint.billHistory, data, (responce) => {
         if (responce.list.length > 0) {
-          console.log('receiptsReportData', responce);
+          // console.log('receiptsReportData', responce);
           setRepotDetails(responce);
         } else {
           setRepotDetails(null);
@@ -120,71 +123,85 @@ const Reports = () => {
   }
 
   useEffect(() => {
+  
+  const getOpt = selectedCategory && selectedCategory.id ? categorys.find((cat) => cat.id == selectedCategory.id)?.options || []
+  : []
+  setOptions(getOpt)
+  },[selectedCategory])
+
+  useEffect(() => {
     getReport()
   }, [selectedCategory, dates,selectedOption]);
 
 
+  console.log('options ---->', options);
   return (
     <ScreenWrapper>
       <Header />
 
       <View style={styles.container}>
         <ScrollView>
-          <View>
-            <ScrollView horizontal>
-              <View style={{ flexDirection: 'row', justifyContent: 'flex-start' }}>
-                {
-                  categorys.map((category, index) => (
-                    <TouchableOpacity style={selectedCategory?.id == category.id ? styles.categopryContainer : styles.categopryInactiveContainer} onPress={() => {
-                      setSelectedCategory(category)
-                    }} key={index}>
-                      <View style={selectedCategory?.id == category.id ? styles.activeImageRound : styles.activeInImageRound}>
-                        <Image source={category.image} style={styles.iconStyle} tintColor={selectedCategory?.id == category.id ? "white" : 'black'} />
+          <CategorySelection selectedCategory={selectedCategory} setSelectedCategory={(data)=>{
+            setSelectedCategory(data); 
+            setSelectedOption(null)
+            }}/>
+          
+          <View style={{flexDirection:'row',flex:1,width:'100%'}}>
+            <View>
+              <Menu>
+                  <MenuTrigger customStyles={triggerStyles}>
+                      <View
+                          style={styles.filterButtonStyle}>
+                          <Text style={{ color: appColors.themeColor, marginRight: 10 ,fontSize:14}}>
+                              { selectedOption ? localizationText(selectedOption.labelParentKey,selectedOption.labelChildKey) : localizationText('Common','selectType')}
+                          </Text>
+
+                          <Ionicons
+                              name='chevron-down'
+                              size={20}
+                              color={appColors.themeColor}
+                          />
                       </View>
-                      <Text style={selectedCategory?.id == category.id ? styles.activeText : styles.inactiveText}>{localizationText(category.labelParentKey, category.labelChildKey)}</Text>
-                    </TouchableOpacity>
-                  ))
-                }
-              </View>
-            </ScrollView>
-          </View>
-
-          <View>
-          <Menu>
-                <MenuTrigger customStyles={triggerStyles}>
-                    <View
-                        style={styles.filterButtonStyle}>
-                        <Text style={{ color: appColors.themeColor, marginRight: 10 ,fontSize:14}}>
-                            { selectedOption ? localizationText(selectedOption.labelParentKey,selectedOption.labelChildKey) : localizationText('Common','selectType')}
-                        </Text>
-
-                        <Ionicons
-                            name='chevron-down'
-                            size={20}
-                            color={appColors.themeColor}
-                        />
-                    </View>
-                </MenuTrigger>
-                <MenuOptions customStyles={optionsStyles}>
-                          <MenuOption
-                                key={-1}
-                                onSelect={() =>setSelectedOption(null)}>
-                                <Text style={{fontSize:12}}>{localizationText('Common','selectType')}</Text>
-                            </MenuOption>
-                    {options.map((data, index) => {
-                        return (
+                  </MenuTrigger>
+                  <MenuOptions customStyles={optionsStyles}>
                             <MenuOption
-                                key={index}
-                                onSelect={() =>setSelectedOption(data)}>
-                                <Text style={{fontSize:12}}>{localizationText(data.labelParentKey,data.labelChildKey)}</Text>
-                            </MenuOption>
-                        );
-                    })}
-                </MenuOptions>
-            </Menu>
+                                  key={-1}
+                                  onSelect={() =>setSelectedOption(null)}>
+                                  <Text style={{fontSize:12}}>{localizationText('Common','selectType')}</Text>
+                              </MenuOption>
+                      {/* {options && options.length > 0 && options.map((data, index) => {
+                          return (
+                              <MenuOption
+                                  key={index}
+                                  onSelect={() =>setSelectedOption(data)}>
+                                  <Text style={{fontSize:12}}>{localizationText(data.labelParentKey,data.labelChildKey)}</Text>
+                              </MenuOption>
+                          );
+                      })} */}
+                  </MenuOptions>
+              </Menu>
 
+              {/* <View
+                  style={styles.filterButtonStyle}>
+                  <Text style={{ color: appColors.themeColor, marginRight: 10 ,fontSize:14}}>
+                      { localizationText('Common','download')}
+                  </Text>
+
+                  <Ionicons
+                      name='cloud-download'
+                      size={20}
+                      color={appColors.themeColor}
+                  />
+              </View> */}
+
+            </View>
+
+            {/* Show Over all amount  */}
+              {/* <View style={{justifyContent:"center",alignItems:"center",alignContent:"center",height:"100%",flex:1}}>
+                <Text style={{fontSize:14, fontWeight:'bold'}}>{localizationText("Common","totalAmount")}</Text>
+                <Text style={{fontSize:18, fontWeight:'bold',marginTop:8}}>{repotDetails?.totalAmount || 0}</Text>
+              </View> */}
           </View>
-
           <PageFilterDates
             generateReports={generateReports}
             filterDateDetails={(date) => {
@@ -235,51 +252,51 @@ const styles = StyleSheet.create({
     paddingTop: 0,
     backgroundColor: '#fff',
   },
-  categopryContainer: {
-    marginRight: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: 30,
-    backgroundColor: appColors.themeColor,
-    borderWidth: 2,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    borderColor: appColors.themeColor,
-  },
+  // categopryContainer: {
+  //   marginRight: 16,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   flexDirection: 'row',
+  //   height: 30,
+  //   backgroundColor: appColors.themeColor,
+  //   borderWidth: 2,
+  //   paddingHorizontal: 10,
+  //   borderRadius: 5,
+  //   borderColor: appColors.themeColor,
+  // },
 
 
-  categopryInactiveContainer: {
-    marginRight: 16,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-    height: 30,
-    // backgroundColor: appColors.themeColor,
-    borderWidth: 2,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-    borderColor: appColors.themeColor,
-  },
+  // categopryInactiveContainer: {
+  //   marginRight: 16,
+  //   alignItems: 'center',
+  //   justifyContent: 'center',
+  //   flexDirection: 'row',
+  //   height: 30,
+  //   // backgroundColor: appColors.themeColor,
+  //   borderWidth: 2,
+  //   paddingHorizontal: 10,
+  //   borderRadius: 5,
+  //   borderColor: appColors.themeColor,
+  // },
 
 
-  activeImageRound: {
-    // backgroundColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
-  },
-  activeInImageRound: {
-    //  borderWidth: 2, borderColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
-  },
-  iconStyle: {
-    height: 20, width: 20,
-    marginRight: 10
-  },
+  // activeImageRound: {
+  //   // backgroundColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
+  // },
+  // activeInImageRound: {
+  //   //  borderWidth: 2, borderColor: appColors.themeColor, borderRadius: 5, margin: 5, justifyContent: "center", alignItems: "center"
+  // },
+  // iconStyle: {
+  //   height: 20, width: 20,
+  //   marginRight: 10
+  // },
 
-  label: {
-    marginTop: 16,
-    fontSize: 16,
-    marginBottom: 5,
-    color: '#333',
-  },
+  // label: {
+  //   marginTop: 16,
+  //   fontSize: 16,
+  //   marginBottom: 5,
+  //   color: '#333',
+  // },
 
   pickerContainer: {
     borderWidth: 1,
@@ -340,6 +357,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   filterButtonStyle: {
+    width:150,
     marginTop:16,
     flexDirection: 'row',
     borderRadius: 5,
