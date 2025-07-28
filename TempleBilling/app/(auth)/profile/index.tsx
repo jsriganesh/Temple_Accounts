@@ -12,7 +12,7 @@ import { useIsFocused } from '@react-navigation/native';
 import { Link, useRouter } from 'expo-router';
 import moment from 'moment';
 import React, { useEffect, useState } from 'react';
-import { Image, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ImageBackground, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 const Profile = () => {
   const router = useRouter()
@@ -29,20 +29,20 @@ const Profile = () => {
     <ScreenWrapper>
 
       <View>
-        <View style={{ backgroundColor: 'pink', padding: 16, }}>
+      {/* <ImageBackground source={{uri:'https://as2.ftcdn.net/v2/jpg/09/29/22/09/1000_F_929220908_r7PN6SU6u5f4NPmAA47p6XgNqNNn9deK.jpg'}} style={{width:'100%'}}> */}
+
+        <View style={{ padding: 16, }}>
           <View style={{ marginHorizontal: 10 }}>
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{localizationText('Common', 'profile')}</Text>
           </View>
-
+          
           <View style={{justifyContent:"center",alignItems:"center",width:'70%',alignSelf:"center"}}>
           <Image
             source={{ uri:userDetails.templeDetails[0].templeImage || commonImages.loginPageImage }} 
             style={styles.profileImage}
           />
-          {/* <View style={{ marginHorizontal: 10 }}> */}
             <Text style={{ fontSize: 16, fontWeight: 'bold',marginTop:16 }}>{userDetails.templeDetails[0].templeName}</Text>
             <Text style={{ fontSize: 14, fontWeight: '600',marginTop:8,textAlign:"center" }}>{userDetails.templeDetails[0].address}</Text>
-          {/* </View> */}
           </View>
         </View>
       </View>

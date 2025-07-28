@@ -7,7 +7,7 @@ import { receiptsReportData } from '@/constants/sampleResponces';
 import {  AddressBookProps, categorieProps, categoriesOptionsProps, FilterDatesProps, ReportDataProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
 import React, { useEffect, useState } from 'react';
-import { Alert, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Linking, Platform, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import moment from 'moment';
 import { postRequest } from '@/services/axiosService';
 import { EndPoint } from '@/services/endPoint';
@@ -56,6 +56,20 @@ const AddressBookList = () => {
     getAllAddressBook()
   }, [dates]);
 
+    const openAddressOnMap = (label="sample", lat:number, lng:number) => {
+      const scheme = Platform.select({
+        ios: 'maps:0,0?q=',
+        android: 'geo:0,0?q=',
+      });
+      const latLng = `${lat},${lng}`;
+      // const label = label;
+      const url = Platform.select({
+        ios: `${scheme}${label}@${latLng}`,
+        android: `${scheme}${latLng}(${label})`,
+      });
+      url && Linking.openURL(url);
+    };
+  
   const getAllAddressBook=()=>{
      const fromDate = dates.fromDate
         const clonedDate = new Date(fromDate.getTime()); // Clone using getTime()
@@ -112,8 +126,10 @@ const AddressBookList = () => {
                                      <View style={styles.fCollumn4}><Text>{data.userAddress}</Text></View>
                                      <View style={styles.fCollumn5}><Text>{data.pincode}</Text></View>
                                      <View style={styles.fCollumn6}>
-                                            <Image style={{height:30,width:30}}  source={require('../../assets/images/gps.png')}/>
-                                      
+                                      <TouchableOpacity onPress={()=>{openAddressOnMap('',data.latitude,data.longitude)}}>
+                                      <Image style={{height:30,width:30}}  source={require('../../assets/images/gps.png')}/>
+
+                                      </TouchableOpacity>
                                      </View>
                                    </View>
                                  )
