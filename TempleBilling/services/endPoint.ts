@@ -14,5 +14,8 @@ export const EndPoint = {
     temple:'temple/',
     billHistory:'bills/history',
     dashboard:'dashboard',
+    addressBook:'address',
+    addressBookSearch:'address/search',
+
 
 }

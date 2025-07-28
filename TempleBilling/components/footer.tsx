@@ -22,7 +22,7 @@ const Footer = () => {
       label: localizationText("Common","address"),
       icon: require("./../assets/images/footerImage/address.png"),
       key: "address",
-      navigateTo: '/(auth)/addressBook',
+      navigateTo: '/(auth)/addressBookList',
     },
     {
       label: localizationText("Common","reports"),
@@ -35,6 +35,7 @@ const Footer = () => {
       label: localizationText("Common","profile"),
       icon: require("./../assets/images/footerImage/profile.png"),
       key: "Profile",
+      navigateTo: '/(auth)/profile',
     },
   ];
 

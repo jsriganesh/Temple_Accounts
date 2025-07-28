@@ -112,6 +112,8 @@
     "paymentType": "Payment Type",
     "address": "Address",
     "totalIncome": "Total Income",
-    "summary": "Summary"
+    "summary": "Summary",
+    "pincode":"Pincode",
+    "location":"Location"
   }
 }

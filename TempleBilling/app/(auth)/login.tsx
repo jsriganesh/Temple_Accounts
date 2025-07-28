@@ -20,7 +20,7 @@ const Login = () => {
       console.log('Login successful:', data);
       dispatch(updateUserDetails(data));
       if( data?.templeDetails?.length > 0 ){
-        router.push('/(auth)/home')
+        router.push('/(auth)/profile')
       }else{
         router.push('/(auth)/createTemple')
       }

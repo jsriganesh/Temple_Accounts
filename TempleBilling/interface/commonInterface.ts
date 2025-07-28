@@ -71,3 +71,23 @@ export interface pieDataProps{
     name: string;
     color: string;
 }
+
+export interface AddressBookProps {
+    __v: number
+    _id: string
+    addressID: string
+    city: string
+    country: string
+    createdDate: string
+    emailID: string
+    formattedAddress: string
+    latitude: number
+    longitude: number
+    mobileNo: number
+    name: string
+    userAddress: string
+    userID: number
+    pincode: number
+
+}
+  

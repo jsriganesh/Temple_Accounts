@@ -2,6 +2,9 @@ import Header from '@/components/header';
 import ScreenWrapper from '@/components/screenWrapper';
 import { localizationText } from '@/constants/commonMenthod';
 import { appColors } from '@/constants/constant';
+import { useAppSelector } from '@/redux/store';
+import { postRequest } from '@/services/axiosService';
+import { EndPoint } from '@/services/endPoint';
 import * as Location from 'expo-location';
 import { useRouter } from 'expo-router';
 import React, { useEffect, useState } from 'react';
@@ -15,6 +18,7 @@ const AddressBook = () => {
     handleSubmit,
     formState: { errors },
   } = useForm()
+    const { categorys,userDetails } = useAppSelector((state) => state.commonData)
 
   const [location, setLocation] = useState<Location.LocationObject | null>(null);
   const [address, setAddress] = useState<Location.LocationGeocodedAddress | null>(null);
@@ -23,14 +27,30 @@ const AddressBook = () => {
   console.log('errors', errors)
   const onSubmit = (data: any) => {
     const getAddress = {
-      data,city:address?.city, 
+      userID:parseInt(userDetails.userID),
+      city:address?.city, 
       country: address?.country, 
       formattedAddress: address?.formattedAddress, 
       postalCode: address?.postalCode,  
-      street: address?.street}
+      street: address?.street,
+      name:data.personName,
+      emailID:data.email,
+      mobileNo:data.mobileNo,
+      userAddress:data.address,
+      latitude:location?.coords.latitude,
+      longitude:location?.coords.longitude,
+    }
       console.log('Form Data:', getAddress);
-
-    Alert.alert('Form Submitted', JSON.stringify(getAddress));
+      
+      postRequest(EndPoint.addressBook, getAddress, (response) => {
+                  console.log('Address created successfully:', response);
+                  Alert.alert('Address created successfully');
+                  router.push('/(auth)/home')
+              }, (error) => {
+                  console.error('Error creating donation:', error);
+                  // Alert.alert('Form Error', JSON.stringify(error))
+                  // Alert.alert(localizationText('Common', 'error'), localizationText('Donation', 'errorCreatingDonation'));
+              });
   }
 
 

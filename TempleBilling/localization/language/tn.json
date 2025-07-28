@@ -113,6 +113,9 @@
     "paymentType": "பணம் செலுத்தும் வகை",
     "address": "முகவரி",
     "totalIncome": "மொத்த வருமானம்",
-    "summary": "சுருக்கம்"
+    "summary": "சுருக்கம்",
+    "pincode":"பின்கோடு",
+    "location":"இடம்"
+
   }
 }
