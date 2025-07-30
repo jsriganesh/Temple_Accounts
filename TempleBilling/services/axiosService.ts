@@ -1,8 +1,8 @@
 import axios from 'axios';
 // const baseUrl = 'http://192.168.0.151:4004/';
 
-// const baseUrl = 'http://192.168.1.4:4004/';
-const baseUrl = 'http://56.228.23.224:4004/';
+const baseUrl = 'http://192.168.1.4:4004/';
+// const baseUrl = 'http://56.228.23.224:4004/';
 
 axios.interceptors.response.use(
     response => response,

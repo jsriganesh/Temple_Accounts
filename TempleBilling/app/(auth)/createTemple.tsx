@@ -3,11 +3,11 @@ import { localizationText } from '@/constants/commonMenthod';
 import { appColors } from '@/constants/constant';
 import { updateUserDetails } from '@/redux/slices/commonSlice';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { postRequest } from '@/services/axiosService';
+import { postRequest, putRequest } from '@/services/axiosService';
 import { EndPoint } from '@/services/endPoint';
 import * as ImagePicker from 'expo-image-picker';
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Button, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
@@ -15,8 +15,10 @@ const CreateTemple = () => {
     const {
         control,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm()
+    
       const router = useRouter()
       const { isEditTemple } = useLocalSearchParams();
     console.log('name ---',isEditTemple)
@@ -25,7 +27,23 @@ const CreateTemple = () => {
   const dispatch = useAppDispatch();
   const { userDetails } = useAppSelector((state) => state.commonData);
 
+
+
+  useEffect(()=>{
+    if(isEditTemple){
+        const templeDetails = userDetails.templeDetails[0]
+        console.log(templeDetails.mobileNo)
+        setValue('templeName',templeDetails.templeName)
+        setValue('templeAddress',templeDetails.address)
+        setValue('mobileNo',templeDetails.mobileNo)
+        setValue('email',templeDetails.emailID)
+        // setImageBase64(templeDetails.templeImage)
+    }
+  },[isEditTemple])
+
     const onSubmit = (data: any) => {
+        const templeDetails = userDetails.templeDetails[0]
+
         const preparData  = {
             "templeDetails":{
             "templeName":data.templeName,
@@ -36,19 +54,69 @@ const CreateTemple = () => {
             },
             "userID":userDetails.userID
         }
-    // postRequest(EndPoint.temple, preparData, (data) => {
-    // //   console.log('Login successful:', data);
-    //   if(data?.userID && data?.templeDetails[0]?.templeID){
-    //     dispatch(updateUserDetails(data));
-    //     router.push('/(auth)/home')
-    //   }else{
-    //     Alert.alert('Something went wrong')
-    //   }
-    // }
-    //   , (error) => {
-    //   console.error('Login failed:', error);
-    //   // Handle login error, e.g., show an error message
-    // });
+
+        console.log(preparData)
+
+        if(isEditTemple && templeDetails._id){
+
+
+            console.log('PUT---')
+
+            const newPreparData  = {
+                "templeDetails":{
+                "templeName":data.templeName,
+                "mobileNo":data.mobileNo,
+                "emailID":data.email,
+                "address":data.templeAddress || "",
+                "templeImage":imageBase64,
+                _id: templeDetails._id,
+                // templeName: string;
+                // mobileNo: number;
+                // emailID: string;
+                // address: string;
+                // templeImage: string;
+                templeID: templeDetails.templeID,
+                bannerImages: templeDetails.bannerImages,
+                __v: templeDetails.__v 
+                },
+                "userID":userDetails.userID
+            }
+    
+
+            putRequest(
+                EndPoint.temple +userDetails.userID+'/'+ templeDetails.templeID,
+                newPreparData,
+                data => {
+                    console.log(data)
+                    if(data?.userID && data?.templeDetails[0]?.templeID){
+                        dispatch(updateUserDetails(data));
+                        Alert.alert('Updated successfully')
+
+                    }else{
+                        Alert.alert('Something went wrong')
+                    }
+                    
+                },
+                error => {
+                    console.log('error -->', error);
+                },
+            );
+
+        }else{
+            postRequest(EndPoint.temple, preparData, (data) => {
+            //   console.log('Login successful:', data);
+            if(data?.userID && data?.templeDetails[0]?.templeID){
+                dispatch(updateUserDetails(data));
+                router.push('/(auth)/home')
+            }else{
+                Alert.alert('Something went wrong')
+            }
+            }
+            , (error) => {
+            console.error('Login failed:', error);
+            // Handle login error, e.g., show an error message
+            });
+        }
 
 
         // router.push('/(auth)/home')
@@ -85,7 +153,7 @@ const CreateTemple = () => {
                 >
             <ScrollView>
                 <View style={styles.container}>
-                    <Text style={styles.title}>{localizationText('Common', 'createTemple')}</Text>
+                    <Text style={styles.title}>{isEditTemple ? localizationText('Common', 'editTemple'): localizationText('Common', 'createTemple')}</Text>
                     {/* Temple Logo (Optional) */}
                     <Text style={styles.label}>{localizationText('CreateTemple', 'templeLogo')}</Text>
                     <TouchableOpacity onPress={pickImage} >

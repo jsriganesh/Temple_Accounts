@@ -37,7 +37,7 @@ const Profile = () => {
             <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{localizationText('Common', 'profile')}</Text>
           </View>
           
-          <View style={{justifyContent:"center",alignItems:"center",width:'70%',alignSelf:"center"}}>
+          <View style={{justifyContent:"center",alignItems:"center",width:'80%',alignSelf:"center"}}>
           <TouchableOpacity onPress={()=>{
             router.push({
               pathname: '/(auth)/createTemple',
@@ -54,7 +54,7 @@ const Profile = () => {
           <View style={{position:'absolute',marginLeft:100}}>
           <Ionicons name="pencil" size={24} color='black' />
           </View>
-            <Text style={{ fontSize: 16, fontWeight: 'bold',marginTop:16 }}>{userDetails.templeDetails[0].templeName}</Text>
+            <Text style={{ fontSize: 16, fontWeight: 'bold',marginTop:16 ,textAlign:"center"}}>{userDetails.templeDetails[0].templeName}</Text>
             <Text style={{ fontSize: 14, fontWeight: '600',marginTop:8,textAlign:"center" }}>{userDetails.templeDetails[0].address}</Text>
           </View>
         </View>
