@@ -28,7 +28,7 @@ const Home = () => {
     getDashboardDatas()
   },[isFocused])
   const getDashboardDatas = ()=>{   
-    console.log('responce ----->,1')
+    // console.log('responce ----->,1')
  
     const today = new Date();
     let toDate: Date = new Date(today);
@@ -42,7 +42,7 @@ const Home = () => {
           templeID: userDetails.templeDetails[0].templeID,
         }
         postRequest(EndPoint.dashboard, data, (responce) => {
-          console.log('responce ----->,',responce)
+          // console.log('responce ----->,',responce)
             if (responce.chartData) {
               // console.log('receiptsReportData', responce);
               setPieData(responce.chartData);

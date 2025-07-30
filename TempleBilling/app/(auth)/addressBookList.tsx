@@ -82,7 +82,7 @@ const AddressBookList = () => {
     
         postRequest(EndPoint.addressBookSearch, data, (responce) => {
             if (responce.list.length > 0) {
-              console.log('receiptsReportData', responce.list);
+              // console.log('receiptsReportData', responce.list);
               setAddressList(responce.list);
             } else {
               // setRepotDetails(null);
@@ -103,7 +103,7 @@ const AddressBookList = () => {
           <PageFilterDates
             filterDateDetails={(date) => {
               setDates(date);
-              console.log('date', date);
+              // console.log('date', date);
             }} />
 
           <View style={{ marginTop: 16, flex: 1 }}>

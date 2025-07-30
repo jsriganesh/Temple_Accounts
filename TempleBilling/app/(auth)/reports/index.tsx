@@ -134,7 +134,7 @@ const Reports = () => {
   }, [selectedCategory, dates,selectedOption]);
 
 
-  console.log('options ---->', options);
+  // console.log('options ---->', options);
   return (
     <ScreenWrapper>
       <Header />
@@ -206,7 +206,7 @@ const Reports = () => {
             generateReports={generateReports}
             filterDateDetails={(date) => {
               setDates(date);
-              console.log('date', date);
+              // console.log('date', date);
             }} />
 
           <View style={{ marginTop: 16, flex: 1 }}>

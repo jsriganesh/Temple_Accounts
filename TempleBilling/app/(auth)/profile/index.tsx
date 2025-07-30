@@ -8,6 +8,7 @@ import { pieDataProps } from '@/interface/commonInterface';
 import { useAppSelector } from '@/redux/store';
 import { postRequest } from '@/services/axiosService';
 import { EndPoint } from '@/services/endPoint';
+import { Ionicons } from '@expo/vector-icons';
 import { useIsFocused } from '@react-navigation/native';
 import { Link, useRouter } from 'expo-router';
 import moment from 'moment';
@@ -24,7 +25,7 @@ const Profile = () => {
 
 
   const { categorys, userDetails } = useAppSelector((state) => state.commonData)
-  console.log('userDetails =',userDetails)
+  // console.log('userDetails =',userDetails)
   return (
     <ScreenWrapper>
 
@@ -37,13 +38,29 @@ const Profile = () => {
           </View>
           
           <View style={{justifyContent:"center",alignItems:"center",width:'70%',alignSelf:"center"}}>
+          <TouchableOpacity onPress={()=>{
+            router.push({
+              pathname: '/(auth)/createTemple',
+              params: { isEditTemple:'true'}
+              ,
+            });
+          
+            }}>
           <Image
             source={{ uri:userDetails.templeDetails[0].templeImage || commonImages.loginPageImage }} 
             style={styles.profileImage}
           />
+          </TouchableOpacity>
+          <View style={{position:'absolute',marginLeft:100}}>
+          <Ionicons name="pencil" size={24} color='black' />
+          </View>
             <Text style={{ fontSize: 16, fontWeight: 'bold',marginTop:16 }}>{userDetails.templeDetails[0].templeName}</Text>
             <Text style={{ fontSize: 14, fontWeight: '600',marginTop:8,textAlign:"center" }}>{userDetails.templeDetails[0].address}</Text>
           </View>
+        </View>
+
+        <View>
+          
         </View>
       </View>
     </ScreenWrapper>

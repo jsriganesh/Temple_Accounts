@@ -40,7 +40,7 @@ interface DonutPieChartProps {
 const DonutPieChart = ({pieData,holdingAmount}:DonutPieChartProps) => {
 
   const [selectedPie, setSelectedPie] = useState(getInnerText(-1, pieData,holdingAmount));
-  console.log('holdingAmount', holdingAmount);
+  // console.log('holdingAmount', holdingAmount);
   const onPieItemSelected = (newIndex: number) => () =>
     setSelectedPie(
       getInnerText(newIndex === selectedPie.index ? -1 : newIndex, pieData,holdingAmount)

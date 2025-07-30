@@ -28,7 +28,7 @@ const CreateDonation = () => {
         : []
 
     // console.log('params', params);
-    console.log('params', params);
+    // console.log('params', params);
     // console.log('category', category);
     const [selectedDonationType, setSelectedDonationType] = useState('cash');
     const [selectedType, setSelectedType] = useState(options.length > 0 ? options[0].id : '');
@@ -62,7 +62,7 @@ const CreateDonation = () => {
         }
 
         postRequest(EndPoint.bills, formData, (response) => {
-            console.log('Donation created successfully:', response);
+            // console.log('Donation created successfully:', response);
             Alert.alert('Donation created successfully');
             router.push('/(auth)/home')
         }, (error) => {
@@ -75,7 +75,7 @@ const CreateDonation = () => {
     }
 
     // && category?.options ? category?.options :[]
-    console.log('optionsoptions', JSON.parse(JSON.stringify(options)))
+    // console.log('optionsoptions', JSON.parse(JSON.stringify(options)))
 
 
 

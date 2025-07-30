@@ -17,10 +17,10 @@ const Login = () => {
 
   const doLogin=()=>{
     postRequest(EndPoint.login, { emailID: emailID, password: password }, (data) => {
-      console.log('Login successful:', data);
+      // console.log('Login successful:', data);
       dispatch(updateUserDetails(data));
       if( data?.templeDetails?.length > 0 ){
-        router.push('/(auth)/profile')
+        router.push('/(auth)/home')
       }else{
         router.push('/(auth)/createTemple')
       }

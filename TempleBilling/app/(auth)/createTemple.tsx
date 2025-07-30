@@ -6,7 +6,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { postRequest } from '@/services/axiosService';
 import { EndPoint } from '@/services/endPoint';
 import * as ImagePicker from 'expo-image-picker';
-import { useRouter } from 'expo-router';
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Alert, Button, Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
@@ -18,7 +18,8 @@ const CreateTemple = () => {
         formState: { errors },
     } = useForm()
       const router = useRouter()
-
+      const { isEditTemple } = useLocalSearchParams();
+    console.log('name ---',isEditTemple)
     const [image, setImage] = useState<string | null>(null);
     const [imageBase64, setImageBase64] = useState<string | null>(null);
   const dispatch = useAppDispatch();
@@ -35,29 +36,19 @@ const CreateTemple = () => {
             },
             "userID":userDetails.userID
         }
-    postRequest(EndPoint.temple, preparData, (data) => {
-      console.log('Login successful:', data);
-      if(data?.userID && data?.templeDetails[0]?.templeID){
-        dispatch(updateUserDetails(data));
-        router.push('/(auth)/home')
-      }else{
-        Alert.alert('Something went wrong')
-      }
-    //   dispatch(updateUserDetails(data));
-    //   if( data?.templeDetails?.length > 0 ){
-    //     // router.push('/(auth)/home')
-    //     // router.push('/(auth)/createTemple')
+    // postRequest(EndPoint.temple, preparData, (data) => {
+    // //   console.log('Login successful:', data);
+    //   if(data?.userID && data?.templeDetails[0]?.templeID){
+    //     dispatch(updateUserDetails(data));
     //     router.push('/(auth)/home')
-
     //   }else{
-    //     router.push('/(auth)/createTemple')
+    //     Alert.alert('Something went wrong')
     //   }
-      // Handle successful login, e.g., navigate to home screen
-    }
-      , (error) => {
-      console.error('Login failed:', error);
-      // Handle login error, e.g., show an error message
-    });
+    // }
+    //   , (error) => {
+    //   console.error('Login failed:', error);
+    //   // Handle login error, e.g., show an error message
+    // });
 
 
         // router.push('/(auth)/home')
