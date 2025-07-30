@@ -1,6 +1,8 @@
 import { printToFileAsync } from 'expo-print';
 import { shareAsync } from 'expo-sharing';
 import { converNumberToRupee } from '@/constants/commonMenthod';
+import { ReportDataProps } from '@/interface/commonInterface';
+import moment from 'moment';
 
 interface PDFProps {
     templeDetails?: {
@@ -10,14 +12,7 @@ interface PDFProps {
     }
     reportType: string;
 
-   report:{
-     id: number;
-    date: string;
-    name: string;
-    amount: number;
-    paymentType: string;
-    comments: string;
-   }[],
+   report:ReportDataProps| null ,
    reportHeaders:string[],
 
 }
@@ -130,11 +125,11 @@ export const generatePDF = async ({templeDetails,reportType,report,reportHeaders
                     </tr>
                 </thead>
                 <tbody>
-                    ${report.map(item => `
+                    ${report?.list.map((item,index) => `
                         <tr>
-                            <td>${item.id}</td>
-                            <td>${item.date}</td>
-                            <td>${item.name}</td>
+                            <td>${index+1}</td>
+                            <td>${moment(item.createdDate).format('DD-MM-YYYY')}</td>
+                            <td>${item.personName}</td>
                             <td>${'-'}</td>
                             <td>${converNumberToRupee(item.amount)}</td>
                             <td>${item.paymentType}</td>
@@ -148,7 +143,7 @@ export const generatePDF = async ({templeDetails,reportType,report,reportHeaders
 
             <div class="section">
                 <h2>Summary</h2>
-                <p><strong>Grand Total:</strong> ₹367.5</p>
+                <p><strong>Grand Total:</strong>${report?.totalAmount ? converNumberToRupee(report?.totalAmount) : converNumberToRupee(0)}</p>
             </div>
 
             <footer>

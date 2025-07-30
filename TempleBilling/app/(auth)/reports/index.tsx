@@ -63,16 +63,16 @@ const Reports = () => {
   const generateReports = () => {
 
     const templeDetails = {
-      templeName: "அருள் மிகு ஸ்ரீ தட்சிணாமூர்த்தி கோவில்",
-      templeAddress: "திருவாரூர் மாவட்டம், திருவாரூர்",
-      templeImage: "https://thumbs.dreamstime.com/b/indian-temple-3396438.jpg",
+      templeName: userDetails.templeDetails[0].templeName ? userDetails.templeDetails[0].templeName :'',
+      templeAddress: userDetails.templeDetails[0].address ? userDetails.templeDetails[0].address :'',
+      templeImage:userDetails.templeDetails[0].templeImage ? userDetails.templeDetails[0].templeImage :''
     }
 
     const data = {
       templeDetails: templeDetails,
       // reportType: localizationText('Common', 'incomeType'),
       reportType: 'Income Type',
-      report: receiptsReportData,
+      report: repotDetails ,
       reportHeaders: [
         // localizationText('ReportHeaders', 'id'),
         // localizationText('ReportHeaders', 'date'),
@@ -90,7 +90,7 @@ const Reports = () => {
         'Comments',
       ]
     }
-    generatePDF(data)
+    data.report && generatePDF(data)
   }
 
   // console.log(repotDetails, 'repotDetails?.list.length');
